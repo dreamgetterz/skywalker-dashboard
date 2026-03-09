@@ -1,0 +1,260 @@
+{
+  "_meta": {
+    "version": "2.0",
+    "last_updated": "2026-03-08T22:00:00",
+    "updated_by": "Skywalker",
+    "note": "This file is written by agents after every run. Dashboards read it on load and auto-refresh every 60s."
+  },
+
+  "social": {
+    "x": {
+      "handle": "@mambajediclaw",
+      "followers": 847,
+      "followers_prev_week": 819,
+      "posts_today": 2,
+      "posts_this_week": 2,
+      "posts_target_weekly": 42,
+      "comments_today": 10,
+      "comments_this_week": 10,
+      "comments_target_weekly": 70,
+      "follows_today": 28,
+      "follows_this_week": 28,
+      "follows_target_weekly": 140,
+      "likes_today": 14,
+      "likes_this_week": 14,
+      "reposts_today": 3,
+      "reposts_this_week": 3,
+      "impressions_today": 420,
+      "impressions_this_week": 420,
+      "prev_week": {
+        "posts": 0,
+        "comments": 0,
+        "follows": 0,
+        "likes": 0,
+        "reposts": 0
+      }
+    },
+    "linkedin": {
+      "handle": "Troy Davis",
+      "followers": 1240,
+      "followers_prev_week": 1225,
+      "posts_today": 0,
+      "posts_this_week": 0,
+      "posts_target_weekly": 5,
+      "comments_today": 0,
+      "comments_this_week": 0,
+      "likes_today": 0,
+      "likes_this_week": 0,
+      "connections_sent_today": 0,
+      "connections_sent_this_week": 0,
+      "profile_views_today": 0,
+      "profile_views_this_week": 0,
+      "prev_week": {
+        "posts": 0,
+        "comments": 0,
+        "likes": 0,
+        "connections_sent": 0
+      }
+    },
+    "youtube": {
+      "handle": "AI Jedi",
+      "subscribers": 312,
+      "subscribers_prev_week": 308,
+      "videos_this_week": 0,
+      "views_today": 0,
+      "views_this_week": 0,
+      "watch_hours_this_week": 0,
+      "likes_this_week": 0,
+      "comments_this_week": 0,
+      "prev_week": {
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "subscribers_gained": 0
+      }
+    },
+    "tiktok": {
+      "handle": "@mambajediclaw",
+      "followers": 0,
+      "followers_prev_week": 0,
+      "videos_today": 0,
+      "videos_this_week": 0,
+      "views_today": 0,
+      "views_this_week": 0,
+      "likes_today": 0,
+      "likes_this_week": 0,
+      "comments_this_week": 0,
+      "shares_this_week": 0,
+      "prev_week": {
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "followers_gained": 0
+      }
+    }
+  },
+
+  "agents": {
+    "skywalker": {
+      "name": "Skywalker",
+      "role": "Social Media Automation",
+      "emoji": "🤖",
+      "color": "purple",
+      "status": "active",
+      "current_task": "Evening cron run — posting + engagement",
+      "last_task_completed": "10 comments on target accounts, 28 follows",
+      "last_task_time": "2026-03-08T17:00:00",
+      "tasks_today": 40,
+      "tasks_this_week": 40,
+      "runs_today": 1,
+      "next_run": "2026-03-09T08:00:00",
+      "tools_used_today": ["postiz_post.py", "x_engage.py"],
+      "errors_today": 1,
+      "error_log": ["Postiz 429 rate limit — 2/6 posts completed"]
+    },
+    "dev": {
+      "name": "Dev",
+      "role": "Full Stack Developer",
+      "emoji": "💻",
+      "color": "green",
+      "status": "active",
+      "current_task": "Upgrading Mission Control dashboard",
+      "last_task_completed": "Built Mission Control + Daily Brief dashboards",
+      "last_task_time": "2026-03-08T22:00:00",
+      "tasks_today": 3,
+      "tasks_this_week": 3,
+      "runs_today": 1,
+      "next_run": null,
+      "tools_used_today": ["html", "css", "javascript"],
+      "errors_today": 0,
+      "error_log": []
+    },
+    "alex": {
+      "name": "Alex",
+      "role": "Research Analyst",
+      "emoji": "🔍",
+      "color": "blue",
+      "status": "idle",
+      "current_task": null,
+      "last_task_completed": null,
+      "last_task_time": null,
+      "tasks_today": 0,
+      "tasks_this_week": 0,
+      "runs_today": 0,
+      "next_run": null,
+      "tools_used_today": [],
+      "errors_today": 0,
+      "error_log": []
+    },
+    "maya": {
+      "name": "Maya",
+      "role": "Content Writer",
+      "emoji": "✍️",
+      "color": "purple",
+      "status": "idle",
+      "current_task": null,
+      "last_task_completed": null,
+      "last_task_time": null,
+      "tasks_today": 0,
+      "tasks_this_week": 0,
+      "runs_today": 0,
+      "next_run": null,
+      "tools_used_today": [],
+      "errors_today": 0,
+      "error_log": []
+    },
+    "jordan": {
+      "name": "Jordan",
+      "role": "Marketing Strategist",
+      "emoji": "📈",
+      "color": "yellow",
+      "status": "idle",
+      "current_task": null,
+      "last_task_completed": null,
+      "last_task_time": null,
+      "tasks_today": 0,
+      "tasks_this_week": 0,
+      "runs_today": 0,
+      "next_run": null,
+      "tools_used_today": [],
+      "errors_today": 0,
+      "error_log": []
+    },
+    "sam": {
+      "name": "Sam",
+      "role": "Social Media Manager",
+      "emoji": "📱",
+      "color": "pink",
+      "status": "idle",
+      "current_task": null,
+      "last_task_completed": null,
+      "last_task_time": null,
+      "tasks_today": 0,
+      "tasks_this_week": 0,
+      "runs_today": 0,
+      "next_run": null,
+      "tools_used_today": [],
+      "errors_today": 0,
+      "error_log": []
+    },
+    "trader": {
+      "name": "Trader",
+      "role": "Trading Sub-Agent",
+      "emoji": "📊",
+      "color": "orange",
+      "status": "offline",
+      "current_task": null,
+      "last_task_completed": null,
+      "last_task_time": null,
+      "tasks_today": 0,
+      "tasks_this_week": 0,
+      "runs_today": 0,
+      "next_run": null,
+      "tools_used_today": [],
+      "errors_today": 0,
+      "error_log": []
+    }
+  },
+
+  "revenue": {
+    "today": 0,
+    "this_week": 0,
+    "this_month": 0,
+    "all_time": 0,
+    "total_sales": 0,
+    "prev_week_total": 0,
+    "products": {
+      "ai_agent_starter_pack": {"name": "AI Agent Starter Pack", "price": 97, "sales": 0},
+      "law_firm_playbook": {"name": "Law Firm AI Playbook", "price": 29.99, "sales": 0},
+      "med_spa_playbook": {"name": "Med Spa AI Playbook", "price": 29.99, "sales": 0},
+      "roofing_playbook": {"name": "Roofing AI Playbook", "price": 29.99, "sales": 0},
+      "hvac_playbook": {"name": "HVAC AI Playbook", "price": 29.99, "sales": 0},
+      "sales_team_playbook": {"name": "Sales Team AI Playbook", "price": 29.99, "sales": 0},
+      "reactivation_pack": {"name": "Reactivation Pack", "price": 19.99, "sales": 0},
+      "voice_agent_pack": {"name": "Voice Agent Pack", "price": 19.99, "sales": 0},
+      "swipe_file": {"name": "Swipe File", "price": 11.11, "sales": 0},
+      "first_class_finances": {"name": "First Class Finances", "price": 11.11, "sales": 0}
+    }
+  },
+
+  "activity_feed": [
+    {"time": "17:00", "type": "system", "text": "Cron trigger fired — evening run", "agent": "skywalker"},
+    {"time": "16:45", "type": "follow", "text": "Skywalker followed 28 accounts in AI/automation/sales", "agent": "skywalker"},
+    {"time": "16:30", "type": "comment", "text": "Commented on @FelixCraftAI — \"Skills compound...\"", "agent": "skywalker"},
+    {"time": "16:20", "type": "comment", "text": "10 comments completed across target accounts", "agent": "skywalker"},
+    {"time": "16:00", "type": "post", "text": "Posted to X — hit Postiz 429 rate limit after 2 posts", "agent": "skywalker"},
+    {"time": "14:00", "type": "system", "text": "x_engage.py updated — Playwright networkidle fix deployed", "agent": "dev"},
+    {"time": "12:00", "type": "system", "text": "Cron trigger fired — midday run", "agent": "skywalker"},
+    {"time": "08:00", "type": "system", "text": "Cron trigger fired — morning run", "agent": "skywalker"},
+    {"time": "07:45", "type": "system", "text": "SOUL.md updated — staggered posting schedule", "agent": "dev"},
+    {"time": "07:30", "type": "system", "text": "Skywalker initialized — first autonomous run", "agent": "skywalker"}
+  ],
+
+  "priorities": [
+    {"rank": 1, "text": "Fix Postiz rate limit — add 90s delay between posts in Skywalker", "priority": "urgent"},
+    {"rank": 2, "text": "Monitor 8am cron run — verify all 3 actions complete", "priority": "urgent"},
+    {"rank": 3, "text": "Plan Mac 2 setup — create new X account + X Developer App", "priority": "high"},
+    {"rank": 4, "text": "Gather Retell AI setup info for Skywalker knowledge base", "priority": "high"},
+    {"rank": 5, "text": "Review Skywalker's memory/2026-03-07.md for insights", "priority": "normal"}
+  ]
+}

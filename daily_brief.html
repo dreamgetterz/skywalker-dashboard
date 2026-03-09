@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AI Jedi — Daily Brief</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#07070f;--panel:#0f0f1a;--card:#13131e;--border:#1c1c2e;
+  --accent:#7c3aed;--accent2:#06b6d4;--green:#10b981;--red:#ef4444;
+  --yellow:#f59e0b;--pink:#ec4899;--blue:#3b82f6;--orange:#f97316;
+  --text:#e2e8f0;--muted:#4a5568;--muted2:#64748b;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;max-width:700px;margin:0 auto;padding:0 0 40px;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* HEADER */
+header{padding:18px 20px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0c0c18,var(--bg));}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(124,58,237,0.4);}
+.logo-title{font-size:18px;font-weight:800;letter-spacing:-0.5px;}
+.logo-handle{font-size:10px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;}
+.clock-block{text-align:right;}
+.clock-big{font-size:22px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;}
+.clock-date{font-size:11px;color:var(--muted2);margin-top:1px;}
+.live-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--green);font-weight:600;}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* GREETING BANNER */
+.greeting{margin:16px 20px;padding:14px 18px;background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.08));border:1px solid rgba(124,58,237,0.2);border-radius:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.greeting-text{font-size:16px;font-weight:700;}
+.greeting-sub{font-size:11px;color:var(--muted2);margin-top:2px;}
+
+/* SECTIONS */
+.section{padding:0 20px;margin-top:20px;}
+.section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:500px){.stat-grid{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-card.s-purple::after{background:linear-gradient(90deg,var(--accent),transparent);}
+.stat-card.s-cyan::after{background:linear-gradient(90deg,var(--accent2),transparent);}
+.stat-card.s-green::after{background:linear-gradient(90deg,var(--green),transparent);}
+.stat-card.s-yellow::after{background:linear-gradient(90deg,var(--yellow),transparent);}
+.stat-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.stat-val{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1;}
+.stat-target{font-size:10px;color:var(--muted2);margin-top:4px;}
+.stat-icon{position:absolute;right:10px;top:10px;font-size:20px;opacity:0.1;}
+
+/* AGENT STATUS LIST */
+.agent-list{display:flex;flex-direction:column;gap:8px;}
+.agent-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;position:relative;}
+.agent-emoji{font-size:22px;flex-shrink:0;margin-top:1px;}
+.agent-info{flex:1;min-width:0;}
+.agent-name{font-size:13px;font-weight:700;}
+.agent-role-sm{font-size:10px;color:var(--muted2);}
+.agent-status-line{display:flex;align-items:center;gap:5px;margin-top:4px;font-size:10px;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sdot.active{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s infinite;}
+.sdot.idle{background:var(--yellow);}
+.sdot.offline{background:var(--muted);}
+.agent-current-task{font-size:10px;color:var(--text);margin-top:5px;padding:5px 8px;background:rgba(124,58,237,0.08);border-radius:5px;border-left:2px solid var(--accent);line-height:1.4;}
+.agent-last-task{font-size:9px;color:var(--muted2);margin-top:3px;line-height:1.3;}
+.agent-tasks-num{font-size:18px;font-weight:800;opacity:0.5;flex-shrink:0;margin-top:2px;}
+.agent-error-badge{font-size:9px;color:var(--red);margin-top:2px;}
+
+/* PRIORITIES */
+.priority-list{display:flex;flex-direction:column;gap:8px;}
+.priority-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;}
+.priority-num{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.p-urgent{background:rgba(239,68,68,0.15);color:var(--red);}
+.p-high{background:rgba(245,158,11,0.15);color:var(--yellow);}
+.p-normal{background:rgba(100,116,139,0.15);color:var(--muted2);}
+.priority-text{font-size:12px;line-height:1.5;flex:1;}
+
+/* WEEK COMPARISON */
+.compare-list{display:flex;flex-direction:column;gap:0;}
+.compare-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.compare-row:last-child{border-bottom:none;}
+.compare-label{font-size:12px;width:90px;flex-shrink:0;}
+.compare-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:0 10px;}
+.compare-bar{height:100%;border-radius:3px;transition:width 0.5s;}
+.compare-vals{font-size:11px;white-space:nowrap;text-align:right;min-width:80px;}
+.compare-trend{font-size:10px;min-width:50px;text-align:right;}
+.trend-up{color:var(--green);}
+.trend-down{color:var(--red);}
+.trend-flat{color:var(--muted2);}
+
+/* PLATFORM MINI CARDS */
+.platform-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.plat-mini{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;}
+.plat-mini-header{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.plat-mini-icon{font-size:16px;}
+.plat-mini-name{font-size:11px;font-weight:700;}
+.plat-mini-handle{font-size:9px;color:var(--muted2);}
+.plat-mini-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.plat-mini-metric{text-align:center;}
+.plat-mini-val{font-size:14px;font-weight:800;}
+.plat-mini-label{font-size:8px;color:var(--muted2);text-transform:uppercase;letter-spacing:0.5px;margin-top:1px;}
+.plat-mini-trend{font-size:8px;margin-top:1px;}
+
+/* REVENUE SNAPSHOT */
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rev-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
+.rev-row:last-child{border-bottom:none;}
+.rev-label{font-size:12px;color:var(--muted2);}
+.rev-val{font-size:13px;font-weight:700;color:var(--green);}
+
+/* ACTIVITY */
+.activity-list{display:flex;flex-direction:column;gap:0;}
+.act-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+.act-item:last-child{border-bottom:none;}
+.act-time{font-size:9px;color:var(--muted2);white-space:nowrap;min-width:38px;padding-top:2px;font-variant-numeric:tabular-nums;}
+.act-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.act-text{font-size:11px;line-height:1.5;flex:1;}
+.act-tag{display:inline-block;font-size:8px;padding:1px 5px;border-radius:3px;margin-left:4px;font-weight:700;}
+.ft-post{background:rgba(245,158,11,0.15);color:var(--yellow);}
+.ft-comment{background:rgba(16,185,129,0.15);color:var(--green);}
+.ft-follow{background:rgba(6,182,212,0.15);color:var(--accent2);}
+.ft-like{background:rgba(236,72,153,0.15);color:var(--pink);}
+.ft-sale{background:rgba(16,185,129,0.2);color:var(--green);}
+.ft-system{background:rgba(100,116,139,0.15);color:var(--muted2);}
+.ft-error{background:rgba(239,68,68,0.15);color:var(--red);}
+
+/* NAV LINK */
+.nav-link{display:block;text-align:center;margin:20px 20px 0;padding:10px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);border-radius:10px;color:var(--accent2);font-size:12px;font-weight:600;text-decoration:none;}
+.nav-link:hover{background:rgba(124,58,237,0.2);}
+
+/* REFRESH */
+.refresh-note{text-align:center;font-size:9px;color:var(--muted);margin-top:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo-row">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <div class="logo-title">AI Jedi Daily Brief</div>
+        <div class="logo-handle">@mambajediclaw</div>
+      </div>
+    </div>
+    <div class="clock-block">
+      <div class="clock-big" id="clock">--:-- --</div>
+      <div class="clock-date" id="date">---</div>
+    </div>
+  </div>
+</header>
+
+<div class="greeting">
+  <div>
+    <div class="greeting-text" id="greeting-text">Good morning, Troy.</div>
+    <div class="greeting-sub" id="greeting-sub">Loading status...</div>
+  </div>
+  <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+</div>
+
+<!-- TODAY'S NUMBERS -->
+<div class="section">
+  <div class="section-title">Today's Numbers — X</div>
+  <div class="stat-grid">
+    <div class="stat-card s-purple"><div class="stat-label">Posts</div><div class="stat-val" style="color:var(--accent)" id="d-posts">—</div><div class="stat-target" id="d-posts-target">Target: 6–8</div><div class="stat-icon">📤</div></div>
+    <div class="stat-card s-cyan"><div class="stat-label">Comments</div><div class="stat-val" style="color:var(--accent2)" id="d-comments">—</div><div class="stat-target" id="d-comments-target">Target: 10–15</div><div class="stat-icon">💬</div></div>
+    <div class="stat-card s-green"><div class="stat-label">Follows</div><div class="stat-val" style="color:var(--green)" id="d-follows">—</div><div class="stat-target" id="d-follows-target">Target: 20–30</div><div class="stat-icon">➕</div></div>
+    <div class="stat-card s-yellow"><div class="stat-label">Revenue</div><div class="stat-val" style="color:var(--yellow)" id="d-revenue">—</div><div class="stat-target">Update from Gumroad</div><div class="stat-icon">💰</div></div>
+  </div>
+</div>
+
+<!-- ALL PLATFORMS -->
+<div class="section">
+  <div class="section-title">All Platforms — This Week</div>
+  <div class="platform-mini-grid" id="platform-mini"></div>
+</div>
+
+<!-- AGENT STATUS -->
+<div class="section">
+  <div class="section-title">Agent Status</div>
+  <div class="agent-list" id="agent-list"></div>
+</div>
+
+<!-- TOP PRIORITIES -->
+<div class="section">
+  <div class="section-title">Top Priorities Today</div>
+  <div class="priority-list" id="priority-list"></div>
+</div>
+
+<!-- THIS WEEK VS LAST WEEK -->
+<div class="section">
+  <div class="section-title">This Week vs Last Week — X</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+    <div class="compare-list" id="compare-list"></div>
+  </div>
+</div>
+
+<!-- REVENUE SNAPSHOT -->
+<div class="section">
+  <div class="section-title">Revenue Snapshot <span style="font-size:8px;color:var(--muted2);font-weight:400;letter-spacing:0;">aijeditroy.gumroad.com</span></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+    <div class="rev-row"><div class="rev-label">Today</div><div class="rev-val" id="r-today">$0.00</div></div>
+    <div class="rev-row"><div class="rev-label">This Week</div><div class="rev-val" id="r-week">$0.00</div></div>
+    <div class="rev-row"><div class="rev-label">This Month</div><div class="rev-val" id="r-month">$0.00</div></div>
+    <div class="rev-row"><div class="rev-label">Total Sales</div><div class="rev-val" id="r-sales" style="color:var(--accent2)">0 units</div></div>
+    <div style="margin-top:10px;font-size:10px;color:var(--muted2);line-height:1.5;">Update manually after checking Gumroad, or connect a webhook for auto-updates.</div>
+  </div>
+</div>
+
+<!-- RECENT ACTIVITY -->
+<div class="section">
+  <div class="section-title">Recent Activity <span style="font-size:8px;color:var(--muted2);font-weight:400;letter-spacing:0;" id="act-date">—</span></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+    <div class="activity-list" id="activity-list"></div>
+  </div>
+</div>
+
+<a href="mission_control.html" class="nav-link">→ Open Full Mission Control</a>
+<div class="refresh-note" id="refresh-note">Auto-refreshes every 60s · Last updated: —</div>
+
+<script>
+// ===== CLOCK =====
+function updateClock(){
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('date').textContent=n.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('act-date').textContent=n.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const h=n.getHours();
+  const greeting=h<12?'Good morning':'h<17?'Good afternoon':'Good evening';
+  document.getElementById('greeting-text').textContent=greeting+', Troy.';
+}
+setInterval(updateClock,1000);updateClock();
+
+// ===== TREND HELPERS =====
+function trendDiff(current,prev){
+  if(prev===null||prev===undefined||prev===0&&current===0) return '<span style="color:var(--muted2)">—</span>';
+  const diff=current-prev;
+  if(diff>0) return `<span class="trend-up">▲ +${diff}</span>`;
+  if(diff<0) return `<span class="trend-down">▼ ${diff}</span>`;
+  return '<span class="trend-flat">→ same</span>';
+}
+
+// ===== LOAD STATS =====
+async function loadStats(){
+  let data;
+  try{
+    const res=await fetch('stats.json?t='+Date.now());
+    data=await res.json();
+  } catch(e){
+    data=null;
+  }
+  if(!data) data=getDefaults();
+  render(data);
+  document.getElementById('refresh-note').textContent='Auto-refreshes every 60s · Last updated: '+(data._meta?.last_updated||'No data');
+}
+
+function getDefaults(){
+  return {
+    _meta:{last_updated:'No data'},
+    social:{
+      x:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,posts_today:0,posts_this_week:0,posts_target_weekly:42,comments_today:0,comments_this_week:0,follows_today:0,follows_this_week:0,likes_today:0,likes_this_week:0,reposts_today:0,reposts_this_week:0,prev_week:{posts:0,comments:0,follows:0,likes:0,reposts:0}},
+      linkedin:{handle:'Troy Davis',followers:0,followers_prev_week:0,posts_this_week:0,likes_this_week:0,comments_this_week:0,connections_sent_this_week:0,prev_week:{posts:0,likes:0,comments:0,connections_sent:0}},
+      youtube:{handle:'AI Jedi',subscribers:0,subscribers_prev_week:0,videos_this_week:0,views_this_week:0,likes_this_week:0,comments_this_week:0,prev_week:{views:0,likes:0,comments:0}},
+      tiktok:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,videos_this_week:0,views_this_week:0,likes_this_week:0,comments_this_week:0,shares_this_week:0,prev_week:{views:0,likes:0,comments:0}}
+    },
+    agents:{
+      skywalker:{name:'Skywalker',role:'Social Media Automation',emoji:'🤖',status:'active',current_task:'Awaiting next cron run',last_task_completed:'—',tasks_today:0,errors_today:0},
+      dev:{name:'Dev',role:'Full Stack Developer',emoji:'💻',status:'idle',current_task:null,last_task_completed:'Dashboard build',tasks_today:3,errors_today:0},
+      alex:{name:'Alex',role:'Research Analyst',emoji:'🔍',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0},
+      maya:{name:'Maya',role:'Content Writer',emoji:'✍️',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0},
+      jordan:{name:'Jordan',role:'Marketing Strategist',emoji:'📈',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0},
+      sam:{name:'Sam',role:'Social Media Manager',emoji:'📱',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0},
+      trader:{name:'Trader',role:'Trading Sub-Agent',emoji:'📊',status:'offline',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0}
+    },
+    revenue:{today:0,this_week:0,this_month:0,total_sales:0},
+    activity_feed:[],
+    priorities:[]
+  };
+}
+
+function render(data){
+  renderStats(data);
+  renderPlatformMini(data);
+  renderAgents(data);
+  renderPriorities(data);
+  renderCompare(data);
+  renderRevenue(data);
+  renderActivity(data);
+  renderGreetingSub(data);
+}
+
+function renderGreetingSub(data){
+  const active=Object.values(data.agents).filter(a=>a.status==='active');
+  const sub = active.length>0
+    ? `${active.map(a=>a.name).join(' & ')} ${active.length===1?'is':'are'} active. Here's where things stand.`
+    : 'All agents on standby. Here\'s where things stand.';
+  document.getElementById('greeting-sub').textContent=sub;
+}
+
+function renderStats(data){
+  const x=data.social.x;
+  document.getElementById('d-posts').textContent=x.posts_today;
+  document.getElementById('d-posts-target').textContent=`Target: 6–8 ${x.posts_today>=6?'✅':''}`;
+  document.getElementById('d-comments').textContent=x.comments_today;
+  document.getElementById('d-comments-target').textContent=`Target: 10–15 ${x.comments_today>=10?'✅':''}`;
+  document.getElementById('d-follows').textContent=x.follows_today;
+  document.getElementById('d-follows-target').textContent=`Target: 20–30 ${x.follows_today>=20?'✅':''}`;
+  document.getElementById('d-revenue').textContent='$'+data.revenue.today;
+}
+
+function renderPlatformMini(data){
+  const s=data.social;
+  const platforms=[
+    {icon:'𝕏',name:'X',handle:s.x.handle,
+     metrics:[
+       {val:s.x.followers,label:'Followers',trend:trendDiff(s.x.followers,s.x.followers_prev_week)},
+       {val:s.x.posts_this_week,label:'Posts',trend:trendDiff(s.x.posts_this_week,s.x.prev_week?.posts)},
+       {val:s.x.likes_this_week,label:'Likes',trend:trendDiff(s.x.likes_this_week,s.x.prev_week?.likes)}
+     ]},
+    {icon:'💼',name:'LinkedIn',handle:s.linkedin.handle,
+     metrics:[
+       {val:s.linkedin.followers,label:'Followers',trend:trendDiff(s.linkedin.followers,s.linkedin.followers_prev_week)},
+       {val:s.linkedin.posts_this_week,label:'Posts',trend:trendDiff(s.linkedin.posts_this_week,s.linkedin.prev_week?.posts)},
+       {val:s.linkedin.likes_this_week,label:'Likes',trend:trendDiff(s.linkedin.likes_this_week,s.linkedin.prev_week?.likes)}
+     ]},
+    {icon:'▶️',name:'YouTube',handle:s.youtube.handle,
+     metrics:[
+       {val:s.youtube.subscribers,label:'Subs',trend:trendDiff(s.youtube.subscribers,s.youtube.subscribers_prev_week)},
+       {val:s.youtube.views_this_week,label:'Views',trend:trendDiff(s.youtube.views_this_week,s.youtube.prev_week?.views)},
+       {val:s.youtube.likes_this_week,label:'Likes',trend:trendDiff(s.youtube.likes_this_week,s.youtube.prev_week?.likes)}
+     ]},
+    {icon:'🎵',name:'TikTok',handle:s.tiktok.handle,
+     metrics:[
+       {val:s.tiktok.followers,label:'Followers',trend:trendDiff(s.tiktok.followers,s.tiktok.followers_prev_week)},
+       {val:s.tiktok.views_this_week,label:'Views',trend:trendDiff(s.tiktok.views_this_week,s.tiktok.prev_week?.views)},
+       {val:s.tiktok.likes_this_week,label:'Likes',trend:trendDiff(s.tiktok.likes_this_week,s.tiktok.prev_week?.likes)}
+     ]}
+  ];
+  document.getElementById('platform-mini').innerHTML=platforms.map(p=>`
+    <div class="plat-mini">
+      <div class="plat-mini-header">
+        <div class="plat-mini-icon">${p.icon}</div>
+        <div><div class="plat-mini-name">${p.name}</div><div class="plat-mini-handle">${p.handle}</div></div>
+      </div>
+      <div class="plat-mini-metrics">
+        ${p.metrics.map(m=>`
+          <div class="plat-mini-metric">
+            <div class="plat-mini-val">${m.val??'—'}</div>
+            <div class="plat-mini-label">${m.label}</div>
+            <div class="plat-mini-trend">${m.trend}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAgents(data){
+  const order=['skywalker','dev','alex','maya','jordan','sam','trader'];
+  const container=document.getElementById('agent-list');
+  container.innerHTML=order.map(key=>{
+    const a=data.agents[key];
+    if(!a) return '';
+    const statusColor=a.status==='active'?'var(--green)':a.status==='idle'?'var(--yellow)':'var(--muted2)';
+    const statusLabel=a.status==='active'?'Active':a.status==='idle'?'Standby':'Offline';
+    const dotClass=a.status==='active'?'active':a.status==='idle'?'idle':'offline';
+    const currentHtml=a.current_task
+      ?`<div class="agent-current-task">🔄 ${a.current_task}</div>`:'';
+    const lastHtml=a.last_task_completed
+      ?`<div class="agent-last-task">✓ Last: ${a.last_task_completed}</div>`
+      :`<div class="agent-last-task" style="color:var(--muted)">No tasks yet</div>`;
+    const errorHtml=a.errors_today>0
+      ?`<div class="agent-error-badge">⚠ ${a.errors_today} error${a.errors_today>1?'s':''} today</div>`:'';
+    return `
+      <div class="agent-row">
+        <div class="agent-emoji">${a.emoji}</div>
+        <div class="agent-info">
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-role-sm">${a.role}</div>
+          <div class="agent-status-line"><div class="sdot ${dotClass}"></div><span style="color:${statusColor}">${statusLabel}</span></div>
+          ${currentHtml}
+          ${lastHtml}
+          ${errorHtml}
+        </div>
+        <div class="agent-tasks-num" style="color:${statusColor}">${a.tasks_today||'—'}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderPriorities(data){
+  const priorities=data.priorities||[];
+  const container=document.getElementById('priority-list');
+  if(priorities.length===0){
+    container.innerHTML='<div style="color:var(--muted2);font-size:11px;padding:8px 0;">No priorities set. Add them to stats.json.</div>';
+    return;
+  }
+  const priClass={urgent:'p-urgent',high:'p-high',normal:'p-normal'};
+  container.innerHTML=priorities.map(p=>`
+    <div class="priority-item">
+      <div class="priority-num ${priClass[p.priority]||'p-normal'}">${p.rank}</div>
+      <div class="priority-text">${p.text}</div>
+    </div>
+  `).join('');
+}
+
+function renderCompare(data){
+  const x=data.social.x;
+  const pw=x.prev_week||{};
+  const maxVal=Math.max(x.posts_this_week,x.comments_this_week,x.follows_this_week,x.likes_this_week,x.reposts_this_week,pw.posts||0,pw.comments||0,pw.follows||0,pw.likes||0,pw.reposts||0,1);
+  const rows=[
+    {label:'Posts',cur:x.posts_this_week,prev:pw.posts||0,color:'var(--accent)'},
+    {label:'Comments',cur:x.comments_this_week,prev:pw.comments||0,color:'var(--green)'},
+    {label:'Follows',cur:x.follows_this_week,prev:pw.follows||0,color:'var(--accent2)'},
+    {label:'Likes',cur:x.likes_this_week,prev:pw.likes||0,color:'var(--pink)'},
+    {label:'Reposts',cur:x.reposts_this_week,prev:pw.reposts||0,color:'var(--blue)'},
+    {label:'Revenue',cur:data.revenue.this_week,prev:data.revenue.prev_week_total||0,color:'var(--yellow)',prefix:'$'}
+  ];
+  document.getElementById('compare-list').innerHTML=rows.map(r=>{
+    const pct=Math.round((r.cur/maxVal)*100);
+    const diff=r.cur-r.prev;
+    const trendHtml=diff>0?`<span class="trend-up">▲ +${r.prefix||''}${diff}</span>`:diff<0?`<span class="trend-down">▼ ${r.prefix||''}${diff}</span>`:`<span class="trend-flat">→</span>`;
+    return `
+      <div class="compare-row">
+        <div class="compare-label">${r.label}</div>
+        <div class="compare-bar-wrap"><div class="compare-bar" style="width:${pct}%;background:${r.color}"></div></div>
+        <div class="compare-vals"><strong>${r.prefix||''}${r.cur}</strong> <span style="color:var(--muted2)">vs ${r.prefix||''}${r.prev}</span></div>
+        <div class="compare-trend">${trendHtml}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderRevenue(data){
+  const r=data.revenue;
+  document.getElementById('r-today').textContent='$'+r.today.toFixed(2);
+  document.getElementById('r-week').textContent='$'+r.this_week.toFixed(2);
+  document.getElementById('r-month').textContent='$'+r.this_month.toFixed(2);
+  document.getElementById('r-sales').textContent=r.total_sales+' units';
+}
+
+function renderActivity(data){
+  const feed=data.activity_feed||[];
+  const container=document.getElementById('activity-list');
+  const feedColors={post:'var(--yellow)',comment:'var(--green)',follow:'var(--accent2)',like:'var(--pink)',sale:'var(--green)',system:'var(--muted2)',error:'var(--red)'};
+  const feedTagClass={post:'ft-post',comment:'ft-comment',follow:'ft-follow',like:'ft-like',sale:'ft-sale',system:'ft-system',error:'ft-error'};
+  const recent=feed.slice(0,8);
+  if(recent.length===0){
+    container.innerHTML='<div style="color:var(--muted2);font-size:11px;padding:8px 0;">No activity yet.</div>';
+    return;
+  }
+  container.innerHTML=recent.map(item=>`
+    <div class="act-item">
+      <div class="act-time">${item.time}</div>
+      <div class="act-dot" style="background:${feedColors[item.type]||'var(--muted2)'}"></div>
+      <div class="act-text">${item.text}<span class="act-tag ${feedTagClass[item.type]||'ft-system'}">${item.type.toUpperCase()}</span></div>
+    </div>
+  `).join('');
+}
+
+// ===== INIT =====
+loadStats();
+setInterval(loadStats,60000);
+</script>
+</body>
+</html>
