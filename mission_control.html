@@ -3,345 +3,368 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>AI Jedi — Mission Control</title>
+<title>AI JEDI TROY — Mission Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#07070f;--panel:#0f0f1a;--card:#13131e;--border:#1c1c2e;
-  --accent:#7c3aed;--accent2:#06b6d4;--green:#10b981;--red:#ef4444;
-  --yellow:#f59e0b;--pink:#ec4899;--blue:#3b82f6;--orange:#f97316;
-  --text:#e2e8f0;--muted:#4a5568;--muted2:#64748b;
+  --bg:#020408;--panel:#080d14;--card:#0d1520;--border:#1a2535;
+  --cyan:#00d4ff;--cyan2:#00aacc;--blue:#0066ff;--purple:#7c3aed;
+  --green:#00ff88;--red:#ff3355;--yellow:#ffcc00;--orange:#ff6600;
+  --pink:#ff00aa;--white:#ffffff;
+  --text:#e8f4ff;--muted:#6b8aaa;--muted2:#4a6080;
+  --glow-cyan:0 0 20px rgba(0,212,255,0.4);
+  --glow-green:0 0 20px rgba(0,255,136,0.4);
+  --glow-red:0 0 20px rgba(255,51,85,0.4);
 }
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(0,102,255,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(0,212,255,0.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
 /* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:linear-gradient(90deg,#07070f,#0c0c18);position:sticky;top:0;z-index:200;backdrop-filter:blur(10px);}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(124,58,237,0.4);flex-shrink:0;}
-.logo-name{font-size:15px;font-weight:800;letter-spacing:-0.5px;}
-.logo-sub{font-size:9px;color:var(--muted2);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
-.header-right{display:flex;align-items:center;gap:10px;}
-.live-pill{display:flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--green);font-weight:600;white-space:nowrap;}
-.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.clock-display{font-size:12px;color:var(--muted2);font-variant-numeric:tabular-nums;text-align:right;}
-.date-display{font-size:10px;color:var(--muted);text-align:right;}
+header{position:sticky;top:0;z-index:200;background:rgba(2,4,8,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,212,255,0.15);padding:0 24px;}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px;}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-logo{width:44px;height:44px;border-radius:50%;border:2px solid rgba(0,212,255,0.4);box-shadow:0 0 16px rgba(0,212,255,0.3);object-fit:cover;flex-shrink:0;}
+.brand-text{}
+.brand-name{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;color:var(--white);letter-spacing:1px;line-height:1;}
+.brand-sub{font-size:11px;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:600;}
+.header-center{display:flex;align-items:center;gap:12px;}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);padding:5px 12px;border-radius:20px;font-size:11px;color:var(--green);font-weight:700;letter-spacing:1px;}
+.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:var(--glow-green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+.header-right{display:flex;align-items:center;gap:16px;}
+.clock-wrap{text-align:right;}
+.clock-time{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:var(--cyan);letter-spacing:2px;font-variant-numeric:tabular-nums;}
+.clock-date{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* REFRESH BAR */
+.refresh-bar{background:rgba(0,212,255,0.04);border-bottom:1px solid rgba(0,212,255,0.08);padding:6px 24px;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.refresh-bar a{color:var(--cyan);text-decoration:none;font-weight:600;}
+.refresh-bar a:hover{text-shadow:var(--glow-cyan);}
+.last-updated-val{color:var(--cyan);font-weight:600;}
 
 /* NAV */
-.nav-tabs{display:flex;gap:0;padding:0 20px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.nav-tabs{display:flex;gap:0;padding:0 24px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .nav-tabs::-webkit-scrollbar{height:0;}
-.tab{padding:11px 16px;font-size:11px;font-weight:600;color:var(--muted2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.tab{padding:14px 20px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
 .tab:hover{color:var(--text);}
-.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan);text-shadow:0 0 10px rgba(0,212,255,0.5);}
 
 /* PAGES */
-.page{display:none;padding:16px 20px;}
+.page{display:none;padding:20px 24px 40px;}
 .page.active{display:block;}
 
-/* RESPONSIVE GRIDS */
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.g23{display:grid;grid-template-columns:2fr 3fr;gap:12px;}
-.g32{display:grid;grid-template-columns:3fr 2fr;gap:12px;}
-.gap{margin-top:12px;}
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g23{display:grid;grid-template-columns:2fr 3fr;gap:14px;}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:14px;}
+.gap{margin-top:14px;}
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr);}.g3{grid-template-columns:repeat(2,1fr);}.g23,.g32{grid-template-columns:1fr;}}
+@media(max-width:600px){.g4{grid-template-columns:1fr 1fr;}.g2{grid-template-columns:1fr;}header{padding:0 16px;}.page{padding:14px 16px 40px;}.nav-tabs{padding:0 16px;}}
 
-@media(max-width:900px){
-  .g4{grid-template-columns:repeat(2,1fr);}
-  .g3{grid-template-columns:repeat(2,1fr);}
-  .g23,.g32{grid-template-columns:1fr;}
-}
-@media(max-width:600px){
-  .g4{grid-template-columns:repeat(2,1fr);}
-  .g3{grid-template-columns:1fr 1fr;}
-  .g2{grid-template-columns:1fr;}
-  header{padding:10px 14px;}
-  .page{padding:12px 14px;}
-  .nav-tabs{padding:0 14px;}
-  .logo-sub{display:none;}
-}
-
-/* PANELS */
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
-.ph{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.ph-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted2);}
-.ph-badge{font-size:10px;color:var(--muted2);}
-.pb{padding:16px;}
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.sec-badge{font-size:11px;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:2px 8px;border-radius:10px;}
 
 /* STAT CARDS */
-.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;transition:border-color 0.2s;}
-.stat:hover{border-color:var(--accent);}
-.stat::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.stat.s-purple::after{background:linear-gradient(90deg,var(--accent),transparent);}
-.stat.s-cyan::after{background:linear-gradient(90deg,var(--accent2),transparent);}
-.stat.s-green::after{background:linear-gradient(90deg,var(--green),transparent);}
-.stat.s-yellow::after{background:linear-gradient(90deg,var(--yellow),transparent);}
-.stat.s-pink::after{background:linear-gradient(90deg,var(--pink),transparent);}
-.stat.s-blue::after{background:linear-gradient(90deg,var(--blue),transparent);}
-.stat.s-orange::after{background:linear-gradient(90deg,var(--orange),transparent);}
-.stat.s-red::after{background:linear-gradient(90deg,var(--red),transparent);}
-.stat-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
-.stat-val{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1;}
-.stat-val.c-purple{color:var(--accent);}
-.stat-val.c-cyan{color:var(--accent2);}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:all 0.2s;cursor:default;}
+.stat:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px);}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.stat.s-cyan::before{background:linear-gradient(90deg,var(--cyan),transparent);}
+.stat.s-blue::before{background:linear-gradient(90deg,var(--blue),transparent);}
+.stat.s-green::before{background:linear-gradient(90deg,var(--green),transparent);}
+.stat.s-yellow::before{background:linear-gradient(90deg,var(--yellow),transparent);}
+.stat.s-purple::before{background:linear-gradient(90deg,var(--purple),transparent);}
+.stat.s-red::before{background:linear-gradient(90deg,var(--red),transparent);}
+.stat.s-orange::before{background:linear-gradient(90deg,var(--orange),transparent);}
+.stat.s-pink::before{background:linear-gradient(90deg,var(--pink),transparent);}
+.stat-icon{font-size:28px;margin-bottom:10px;display:block;}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;}
+.stat-val{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1;}
+.stat-val.c-cyan{color:var(--cyan);}
+.stat-val.c-blue{color:var(--blue);}
 .stat-val.c-green{color:var(--green);}
 .stat-val.c-yellow{color:var(--yellow);}
-.stat-val.c-pink{color:var(--pink);}
-.stat-val.c-blue{color:var(--blue);}
-.stat-val.c-orange{color:var(--orange);}
+.stat-val.c-purple{color:var(--purple);}
 .stat-val.c-red{color:var(--red);}
-.stat-sub{font-size:10px;color:var(--muted2);margin-top:5px;}
-.stat-icon{position:absolute;right:12px;top:12px;font-size:22px;opacity:0.12;}
-.trend-up{color:var(--green);font-size:10px;}
-.trend-down{color:var(--red);font-size:10px;}
-.trend-flat{color:var(--muted2);font-size:10px;}
+.stat-val.c-orange{color:var(--orange);}
+.stat-val.c-pink{color:var(--pink);}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.4;}
+.trend-up{color:var(--green);font-weight:700;}
+.trend-down{color:var(--red);font-weight:700;}
+.trend-flat{color:var(--muted);}
 
-/* PLATFORM SOCIAL CARDS */
-.platform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-@media(max-width:600px){.platform-grid{grid-template-columns:1fr;}}
-.plat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;overflow:hidden;}
-.plat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.plat-card.x-card::after{background:linear-gradient(90deg,#fff,transparent);}
-.plat-card.li-card::after{background:linear-gradient(90deg,#0a66c2,transparent);}
-.plat-card.yt-card::after{background:linear-gradient(90deg,#ff0000,transparent);}
-.plat-card.tt-card::after{background:linear-gradient(90deg,#69c9d0,transparent);}
-.plat-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.plat-icon-lg{font-size:20px;width:32px;text-align:center;}
-.plat-name-lg{font-size:13px;font-weight:700;}
-.plat-handle{font-size:10px;color:var(--muted2);}
-.plat-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.plat-metric{text-align:center;}
-.plat-metric-val{font-size:16px;font-weight:800;}
-.plat-metric-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
-.plat-metric-trend{font-size:9px;margin-top:1px;}
+/* PANELS */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.ph{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ph-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+.ph-badge{font-size:12px;color:var(--muted);}
+.pb{padding:18px;}
 
 /* AGENT CARDS */
-.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
 @media(max-width:600px){.agent-grid{grid-template-columns:1fr 1fr;}}
-.agent-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;overflow:hidden;transition:all 0.2s;}
-.agent-card:hover{transform:translateY(-2px);border-color:var(--accent);}
-.agent-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
-.agent-card.skywalker::before{background:var(--accent);}
-.agent-card.alex::before{background:var(--blue);}
-.agent-card.maya::before{background:var(--accent);}
-.agent-card.jordan::before{background:var(--yellow);}
-.agent-card.dev::before{background:var(--green);}
-.agent-card.sam::before{background:var(--pink);}
-.agent-card.trader::before{background:var(--orange);}
-.agent-avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px;}
-.agent-avatar.skywalker{background:linear-gradient(135deg,#4c1d95,#7c3aed);}
-.agent-avatar.alex{background:linear-gradient(135deg,#1e3a5f,#3b82f6);}
-.agent-avatar.maya{background:linear-gradient(135deg,#3b0764,#7c3aed);}
-.agent-avatar.jordan{background:linear-gradient(135deg,#78350f,#f59e0b);}
-.agent-avatar.dev{background:linear-gradient(135deg,#064e3b,#10b981);}
-.agent-avatar.sam{background:linear-gradient(135deg,#831843,#ec4899);}
-.agent-avatar.trader{background:linear-gradient(135deg,#7c2d12,#f97316);}
-.agent-name{font-size:13px;font-weight:700;margin-bottom:1px;}
-.agent-role{font-size:10px;color:var(--muted2);margin-bottom:6px;}
-.agent-status-row{display:flex;align-items:center;gap:5px;font-size:10px;margin-bottom:5px;}
-.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.sdot.active{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s infinite;}
+.agent-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden;transition:all 0.25s;cursor:pointer;}
+.agent-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+.agent-card::after{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:14px 0 0 14px;}
+.agent-card.skywalker::after{background:linear-gradient(180deg,var(--cyan),var(--blue));}
+.agent-card.trader::after{background:linear-gradient(180deg,var(--green),#00aa55);}
+.agent-card.jordan::after{background:linear-gradient(180deg,var(--yellow),var(--orange));}
+.agent-card.sam::after{background:linear-gradient(180deg,var(--pink),var(--purple));}
+.agent-card.alex::after{background:linear-gradient(180deg,var(--blue),var(--purple));}
+.agent-card.maya::after{background:linear-gradient(180deg,var(--purple),var(--pink));}
+.agent-card.sentinel::after{background:linear-gradient(180deg,var(--orange),var(--red));}
+.agent-card.skywalker:hover{border-color:rgba(0,212,255,0.4);box-shadow:0 8px 30px rgba(0,212,255,0.1);}
+.agent-card.trader:hover{border-color:rgba(0,255,136,0.4);box-shadow:0 8px 30px rgba(0,255,136,0.1);}
+.agent-card.jordan:hover{border-color:rgba(255,204,0,0.4);box-shadow:0 8px 30px rgba(255,204,0,0.1);}
+.agent-avatar{font-size:28px;margin-bottom:10px;display:block;}
+.agent-name{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.agent-role{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.4;}
+.agent-status-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sdot.active{background:var(--green);box-shadow:var(--glow-green);animation:pulse 2s infinite;}
 .sdot.idle{background:var(--yellow);}
-.sdot.offline{background:var(--muted);}
-.agent-current{font-size:10px;color:var(--text);margin-top:4px;line-height:1.4;padding:5px 7px;background:rgba(124,58,237,0.08);border-radius:5px;border-left:2px solid var(--accent);}
-.agent-last{font-size:9px;color:var(--muted2);margin-top:4px;line-height:1.3;}
-.agent-tasks-badge{position:absolute;top:12px;right:12px;font-size:18px;font-weight:800;opacity:0.5;}
-.agent-error{font-size:9px;color:var(--red);margin-top:3px;}
+.sdot.offline{background:var(--muted2);}
+.agent-status-label{font-size:12px;font-weight:700;}
+.agent-current{font-size:12px;color:var(--text);margin-top:8px;line-height:1.5;padding:8px 10px;background:rgba(0,212,255,0.06);border-radius:8px;border-left:2px solid var(--cyan);}
+.agent-last{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;}
+.agent-tasks-badge{position:absolute;top:14px;right:14px;font-family:'Orbitron',sans-serif;font-size:20px;font-weight:800;opacity:0.35;}
+.agent-error{font-size:11px;color:var(--red);margin-top:5px;font-weight:600;}
 
 /* ACTIVITY FEED */
-.feed-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.feed-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(26,37,53,0.8);align-items:flex-start;}
 .feed-item:last-child{border-bottom:none;}
-.feed-time{font-size:9px;color:var(--muted2);white-space:nowrap;font-variant-numeric:tabular-nums;min-width:40px;padding-top:2px;}
-.feed-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
-.feed-text{font-size:11px;line-height:1.5;flex:1;}
-.feed-tag{display:inline-block;font-size:8px;padding:1px 5px;border-radius:3px;margin-left:4px;font-weight:700;letter-spacing:0.5px;}
-.ft-post{background:rgba(245,158,11,0.15);color:var(--yellow);}
-.ft-comment{background:rgba(16,185,129,0.15);color:var(--green);}
-.ft-follow{background:rgba(6,182,212,0.15);color:var(--accent2);}
-.ft-like{background:rgba(236,72,153,0.15);color:var(--pink);}
-.ft-sale{background:rgba(16,185,129,0.2);color:var(--green);}
-.ft-system{background:rgba(100,116,139,0.15);color:var(--muted2);}
-.ft-error{background:rgba(239,68,68,0.15);color:var(--red);}
+.feed-time{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;min-width:44px;padding-top:3px;}
+.feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.feed-text{font-size:13px;line-height:1.5;flex:1;color:var(--text);}
+.feed-tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;}
+.ft-post{background:rgba(255,204,0,0.15);color:var(--yellow);}
+.ft-comment{background:rgba(0,255,136,0.15);color:var(--green);}
+.ft-follow{background:rgba(0,212,255,0.15);color:var(--cyan);}
+.ft-like{background:rgba(255,0,170,0.15);color:var(--pink);}
+.ft-sale{background:rgba(0,255,136,0.2);color:var(--green);}
+.ft-system{background:rgba(107,138,170,0.15);color:var(--muted);}
+.ft-error{background:rgba(255,51,85,0.15);color:var(--red);}
+
+/* PLATFORM CARDS */
+.platform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media(max-width:600px){.platform-grid{grid-template-columns:1fr;}}
+.plat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all 0.2s;}
+.plat-card:hover{transform:translateY(-2px);}
+.plat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.plat-card.x-card::before{background:linear-gradient(90deg,#fff,transparent);}
+.plat-card.li-card::before{background:linear-gradient(90deg,#0a66c2,transparent);}
+.plat-card.yt-card::before{background:linear-gradient(90deg,#ff0000,transparent);}
+.plat-card.tt-card::before{background:linear-gradient(90deg,#69c9d0,transparent);}
+.plat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.plat-icon-lg{font-size:24px;width:36px;text-align:center;}
+.plat-name-lg{font-size:15px;font-weight:700;color:var(--white);}
+.plat-handle{font-size:12px;color:var(--muted);}
+.plat-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.plat-metric{text-align:center;}
+.plat-metric-val{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:var(--white);}
+.plat-metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;}
+.plat-metric-trend{font-size:10px;margin-top:2px;}
+
+/* CRON CARDS */
+.cron-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:500px){.cron-grid{grid-template-columns:1fr;}}
+.cron-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all 0.2s;}
+.cron-card:hover{border-color:rgba(0,212,255,0.3);}
+.cron-time{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:800;letter-spacing:-1px;}
+.cron-label{font-size:12px;color:var(--muted);margin-top:5px;font-weight:600;}
+.cron-tasks{font-size:12px;color:var(--text);margin-top:8px;line-height:1.6;}
+
+/* PLATFORM STATUS */
+.plat-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.plat-row:last-child{border-bottom:none;}
+.plat-icon{font-size:20px;width:28px;text-align:center;}
+.plat-name{font-size:14px;font-weight:600;flex:1;color:var(--text);}
+.plat-stat{font-size:12px;color:var(--muted);}
+.plat-change{font-size:12px;font-weight:700;}
 
 /* KANBAN */
-.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:700px){.kanban{grid-template-columns:1fr;}}
-.k-col{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:200px;}
-.k-col.drag-over{border-color:var(--accent);background:rgba(124,58,237,0.05);}
-.k-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.k-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
-.k-count{background:var(--border);padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;}
-.k-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:7px;cursor:grab;transition:all 0.2s;}
-.k-card:hover{border-color:var(--accent);transform:translateY(-1px);}
+.k-col{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;min-height:200px;}
+.k-col.drag-over{border-color:var(--cyan);background:rgba(0,212,255,0.04);}
+.k-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.k-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.k-count{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700;color:var(--text);}
+.k-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;cursor:grab;transition:all 0.2s;}
+.k-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-1px);}
 .k-card.dragging{opacity:0.5;}
-.k-card-title{font-size:12px;font-weight:600;margin-bottom:7px;line-height:1.3;}
-.k-badges{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px;}
-.badge{font-size:8px;padding:2px 6px;border-radius:4px;font-weight:700;letter-spacing:0.3px;}
-.b-work{background:rgba(124,58,237,0.2);color:var(--accent);}
-.b-marketing{background:rgba(245,158,11,0.2);color:var(--yellow);}
-.b-dev{background:rgba(16,185,129,0.2);color:var(--green);}
-.b-personal{background:rgba(6,182,212,0.2);color:var(--accent2);}
-.b-urgent{background:rgba(239,68,68,0.2);color:var(--red);}
-.b-normal{background:rgba(59,130,246,0.2);color:var(--blue);}
-.b-someday{background:rgba(100,116,139,0.15);color:var(--muted2);}
-.b-ontrack{background:rgba(16,185,129,0.15);color:var(--green);}
-.b-atrisk{background:rgba(245,158,11,0.15);color:var(--yellow);}
-.b-offtrack{background:rgba(239,68,68,0.15);color:var(--red);}
-.k-due{font-size:9px;color:var(--muted2);margin-top:3px;}
-.k-add{display:flex;align-items:center;gap:5px;padding:7px;border-radius:6px;cursor:pointer;color:var(--muted2);font-size:11px;transition:all 0.2s;margin-top:3px;}
+.k-card-title{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.4;color:var(--text);}
+.k-badges{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
+.badge{font-size:10px;padding:2px 7px;border-radius:5px;font-weight:700;letter-spacing:0.3px;}
+.b-work{background:rgba(0,212,255,0.15);color:var(--cyan);}
+.b-marketing{background:rgba(255,204,0,0.15);color:var(--yellow);}
+.b-dev{background:rgba(0,255,136,0.15);color:var(--green);}
+.b-personal{background:rgba(124,58,237,0.15);color:var(--purple);}
+.b-urgent{background:rgba(255,51,85,0.2);color:var(--red);}
+.b-normal{background:rgba(0,102,255,0.15);color:var(--blue);}
+.b-someday{background:rgba(107,138,170,0.15);color:var(--muted);}
+.b-ontrack{background:rgba(0,255,136,0.12);color:var(--green);}
+.b-atrisk{background:rgba(255,204,0,0.12);color:var(--yellow);}
+.b-offtrack{background:rgba(255,51,85,0.12);color:var(--red);}
+.k-due{font-size:11px;color:var(--muted);margin-top:4px;}
+.k-add{display:flex;align-items:center;gap:6px;padding:8px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:12px;transition:all 0.2s;margin-top:4px;}
 .k-add:hover{background:var(--border);color:var(--text);}
 
 /* PROJECTS */
-.proj-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;}
-.proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;}
-.proj-name{font-size:12px;font-weight:700;}
-.proj-badge{font-size:8px;padding:2px 7px;border-radius:4px;font-weight:700;}
-.pb-active{background:rgba(16,185,129,0.15);color:var(--green);}
-.pb-planned{background:rgba(124,58,237,0.15);color:var(--accent);}
-.pb-paused{background:rgba(245,158,11,0.15);color:var(--yellow);}
-.proj-desc{font-size:10px;color:var(--muted2);margin-bottom:9px;line-height:1.5;}
-.pbar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.pfill{height:100%;border-radius:2px;}
-.pfill.purple{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;transition:all 0.2s;}
+.proj-card:hover{border-color:rgba(0,212,255,0.25);}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.proj-name{font-size:14px;font-weight:700;color:var(--white);}
+.proj-badge{font-size:10px;padding:3px 8px;border-radius:5px;font-weight:700;}
+.pb-active{background:rgba(0,255,136,0.15);color:var(--green);}
+.pb-planned{background:rgba(0,212,255,0.15);color:var(--cyan);}
+.pb-paused{background:rgba(255,204,0,0.15);color:var(--yellow);}
+.proj-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6;}
+.pbar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;border-radius:3px;}
+.pfill.cyan{background:linear-gradient(90deg,var(--cyan),var(--blue));}
 .pfill.green{background:var(--green);}
 .pfill.yellow{background:var(--yellow);}
-.proj-meta{display:flex;justify-content:space-between;margin-top:5px;font-size:9px;color:var(--muted2);}
+.proj-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--muted);}
 
 /* PRODUCTS */
-.prod-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.prod-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
 .prod-row:last-child{border-bottom:none;}
-.prod-name{font-size:12px;}
-.prod-price{font-size:12px;font-weight:700;color:var(--green);}
-.prod-sales{font-size:10px;color:var(--muted2);text-align:right;}
-.prod-bar{height:3px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden;width:80px;}
-.prod-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent2));border-radius:2px;}
+.prod-name{font-size:13px;font-weight:600;color:var(--text);}
+.prod-price{font-size:14px;font-weight:800;color:var(--green);}
+.prod-sales{font-size:12px;color:var(--muted);text-align:right;}
+.prod-bar{height:3px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;width:80px;}
+.prod-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:2px;}
 
-/* PLATFORM STATUS */
-.plat-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
-.plat-row:last-child{border-bottom:none;}
-.plat-icon{font-size:16px;width:24px;text-align:center;}
-.plat-name{font-size:12px;flex:1;}
-.plat-stat{font-size:11px;color:var(--muted2);}
-.plat-change{font-size:10px;}
-
-/* CRON */
-.cron-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-@media(max-width:500px){.cron-grid{grid-template-columns:1fr;}}
-.cron-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
-.cron-time{font-size:20px;font-weight:800;letter-spacing:-1px;}
-.cron-label{font-size:9px;color:var(--muted2);margin-top:3px;}
-.cron-tasks{font-size:10px;color:var(--muted2);margin-top:5px;line-height:1.5;}
-
-/* METRIC CARDS */
-.metric-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
-.metric-val{font-size:22px;font-weight:800;letter-spacing:-1px;}
-.metric-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
-.metric-change{font-size:10px;margin-top:3px;}
+/* METRIC CARD */
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.metric-val{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:800;letter-spacing:-1px;}
+.metric-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+.metric-change{font-size:12px;margin-top:4px;}
 
 /* CHART */
-.chart-wrap{position:relative;height:150px;}
+.chart-wrap{position:relative;height:160px;}
 
 /* SCROLLABLE */
-.scroll{max-height:360px;overflow-y:auto;}
-.scroll-sm{max-height:240px;overflow-y:auto;}
+.scroll{max-height:380px;overflow-y:auto;}
+.scroll-sm{max-height:260px;overflow-y:auto;}
 
 /* SECTION DIVIDER */
-.sdiv{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:18px 0 10px;display:flex;align-items:center;gap:8px;}
+.sdiv{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
 .sdiv::after{content:'';flex:1;height:1px;background:var(--border);}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:420px;}
-.modal h3{font-size:15px;font-weight:700;margin-bottom:14px;}
-.form-group{margin-bottom:10px;}
-.form-label{font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;display:block;}
-.form-input,.form-select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;}
-.form-input:focus,.form-select:focus{border-color:var(--accent);}
-.modal-btns{display:flex;gap:8px;margin-top:14px;}
-.btn{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;}
-.btn-primary{background:var(--accent);color:white;}
-.btn-primary:hover{opacity:0.85;}
-.btn-ghost{background:var(--card);color:var(--muted2);border:1px solid var(--border);}
+.modal{background:var(--panel);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:24px;width:100%;max-width:440px;box-shadow:0 0 60px rgba(0,212,255,0.1);}
+.modal h3{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;margin-bottom:18px;color:var(--white);}
+.form-group{margin-bottom:12px;}
+.form-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block;font-weight:700;}
+.form-input,.form-select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif;}
+.form-input:focus,.form-select:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,0.1);}
+.modal-btns{display:flex;gap:10px;margin-top:18px;}
+.btn{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:var(--bg);}
+.btn-primary:hover{opacity:0.9;}
+.btn-ghost{background:var(--card);color:var(--muted);border:1px solid var(--border);}
 .btn-ghost:hover{color:var(--text);}
 
-/* REFRESH NOTICE */
-.refresh-bar{background:rgba(124,58,237,0.08);border-bottom:1px solid rgba(124,58,237,0.15);padding:5px 20px;font-size:10px;color:var(--muted2);display:flex;align-items:center;justify-content:space-between;}
-.refresh-bar span{color:var(--accent);}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-state-icon{font-size:40px;margin-bottom:12px;display:block;opacity:0.4;}
+.empty-state-text{font-size:14px;line-height:1.6;}
+
+/* MOTIVATION PILL */
+.motivation-pill{background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.25);padding:8px 16px;border-radius:20px;font-size:13px;color:var(--green);font-weight:700;white-space:nowrap;}
+
+/* NEXT ACTIONS */
+.next-action-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.next-action-item:last-child{border-bottom:none;}
+.na-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.na-text{font-size:13px;line-height:1.5;flex:1;color:var(--text);}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-icon">⚡</div>
-    <div>
-      <div class="logo-name">AI Jedi Mission Control</div>
-      <div class="logo-sub">@mambajediclaw · aijeditroy.gumroad.com</div>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663144924283/CQHbsFbMQuhH3CS7f3vqom/ai_jedi_logo_square_d6729d6a.png" class="brand-logo" alt="AI Jedi Troy">
+      <div class="brand-text">
+        <div class="brand-name">AI JEDI TROY</div>
+        <div class="brand-sub">⚡ Mission Control</div>
+      </div>
     </div>
-  </div>
-  <div class="header-right">
-    <div class="live-pill"><div class="live-dot"></div>LIVE</div>
-    <div>
-      <div class="clock-display" id="clock">--:-- --</div>
-      <div class="date-display" id="date">---</div>
+    <div class="header-center">
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    </div>
+    <div class="header-right">
+      <div class="clock-wrap">
+        <div class="clock-time" id="clock">--:-- --</div>
+        <div class="clock-date" id="date">---</div>
+      </div>
     </div>
   </div>
 </header>
 
 <div class="refresh-bar">
-  Auto-refreshes every 60s · Last updated: <span id="last-updated">Loading...</span>
-  &nbsp;·&nbsp; <a href="daily_brief.html" style="color:var(--accent2);text-decoration:none;">→ Daily Brief</a>
+  <span>⚡ Auto-refreshes every 60s &nbsp;·&nbsp; Last updated: <span class="last-updated-val" id="last-updated">Loading...</span></span>
+  <a href="daily_brief.html">→ Daily Brief</a>
 </div>
 
 <div class="nav-tabs">
-  <div class="tab active" onclick="showPage('overview',this)">Overview</div>
-  <div class="tab" onclick="showPage('agents',this)">Agents</div>
-  <div class="tab" onclick="showPage('social',this)">Social</div>
-  <div class="tab" onclick="showPage('revenue',this)">Revenue</div>
-  <div class="tab" onclick="showPage('tasks',this)">Tasks</div>
-  <div class="tab" onclick="showPage('projects',this)">Projects</div>
+  <div class="tab active" onclick="showPage('overview',this)">🏠 Overview</div>
+  <div class="tab" onclick="showPage('agents',this)">🤖 Agents</div>
+  <div class="tab" onclick="showPage('social',this)">📡 Social</div>
+  <div class="tab" onclick="showPage('revenue',this)">💰 Revenue</div>
+  <div class="tab" onclick="showPage('tasks',this)">⚡ Tasks</div>
+  <div class="tab" onclick="showPage('projects',this)">🚀 Projects</div>
 </div>
 
 <!-- ===== OVERVIEW PAGE ===== -->
 <div class="page active" id="page-overview">
   <div class="g4">
-    <div class="stat s-purple"><div class="stat-label">Posts Today</div><div class="stat-val c-purple" id="s-posts">—</div><div class="stat-sub" id="s-posts-sub">Loading...</div><div class="stat-icon">📤</div></div>
-    <div class="stat s-cyan"><div class="stat-label">Comments</div><div class="stat-val c-cyan" id="s-comments">—</div><div class="stat-sub" id="s-comments-sub">Loading...</div><div class="stat-icon">💬</div></div>
-    <div class="stat s-green"><div class="stat-label">Follows</div><div class="stat-val c-green" id="s-follows">—</div><div class="stat-sub" id="s-follows-sub">Loading...</div><div class="stat-icon">➕</div></div>
-    <div class="stat s-yellow"><div class="stat-label">Revenue Today</div><div class="stat-val c-yellow" id="s-revenue">—</div><div class="stat-sub">Track at gumroad.com</div><div class="stat-icon">💰</div></div>
+    <div class="stat s-cyan"><span class="stat-icon">📤</span><div class="stat-label">Posts Today</div><div class="stat-val c-cyan" id="s-posts">—</div><div class="stat-sub" id="s-posts-sub">Loading...</div></div>
+    <div class="stat s-green"><span class="stat-icon">💬</span><div class="stat-label">Comments</div><div class="stat-val c-green" id="s-comments">—</div><div class="stat-sub" id="s-comments-sub">Loading...</div></div>
+    <div class="stat s-blue"><span class="stat-icon">➕</span><div class="stat-label">Follows</div><div class="stat-val c-blue" id="s-follows">—</div><div class="stat-sub" id="s-follows-sub">Loading...</div></div>
+    <div class="stat s-yellow"><span class="stat-icon">💰</span><div class="stat-label">Revenue Today</div><div class="stat-val c-yellow" id="s-revenue">—</div><div class="stat-sub">Track at gumroad.com</div></div>
   </div>
 
   <div class="g23 gap">
     <div class="panel">
-      <div class="ph"><span class="ph-title">Agent Status</span><span class="ph-badge" id="agent-count-badge">7 agents</span></div>
-      <div class="pb">
-        <div class="agent-grid" id="overview-agents"></div>
-      </div>
+      <div class="ph"><span class="ph-title">🤖 Agent Status</span><span class="ph-badge" id="agent-count-badge">7 agents</span></div>
+      <div class="pb"><div class="agent-grid" id="overview-agents"></div></div>
     </div>
     <div class="panel">
-      <div class="ph"><span class="ph-title">Live Activity Feed</span><span class="ph-badge" id="feed-date">—</span></div>
+      <div class="ph"><span class="ph-title">⚡ Live Activity Feed</span><span class="ph-badge" id="feed-date">—</span></div>
       <div class="pb scroll" id="activity-feed"></div>
     </div>
   </div>
 
   <div class="g2 gap">
     <div class="panel">
-      <div class="ph"><span class="ph-title">Cron Schedule</span><span class="ph-badge">3 daily runs</span></div>
+      <div class="ph"><span class="ph-title">⏰ Daily Schedule</span><span class="ph-badge">3 runs</span></div>
       <div class="pb">
         <div class="cron-grid">
-          <div class="cron-card"><div class="cron-time" style="color:var(--accent)">8am</div><div class="cron-label">Morning Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
-          <div class="cron-card"><div class="cron-time" style="color:var(--accent2)">12pm</div><div class="cron-label">Midday Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
-          <div class="cron-card"><div class="cron-time" style="color:var(--green)">5pm</div><div class="cron-label">Evening Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
+          <div class="cron-card"><div class="cron-time" style="color:var(--cyan)">8am</div><div class="cron-label">Morning Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
+          <div class="cron-card"><div class="cron-time" style="color:var(--green)">12pm</div><div class="cron-label">Midday Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
+          <div class="cron-card"><div class="cron-time" style="color:var(--yellow)">5pm</div><div class="cron-label">Evening Run</div><div class="cron-tasks">2 posts<br>5 comments<br>10 follows</div></div>
         </div>
       </div>
     </div>
     <div class="panel">
-      <div class="ph"><span class="ph-title">Platform Status</span><span class="ph-badge">4 connected</span></div>
+      <div class="ph"><span class="ph-title">📡 Platform Status</span><span class="ph-badge">4 connected</span></div>
       <div class="pb">
         <div class="plat-row"><div class="plat-icon">𝕏</div><div class="plat-name">X (Twitter)</div><div><div class="plat-stat">@mambajediclaw</div><div class="plat-change trend-up">● Connected</div></div></div>
         <div class="plat-row"><div class="plat-icon">💼</div><div class="plat-name">LinkedIn</div><div><div class="plat-stat">Troy Davis</div><div class="plat-change trend-up">● Connected</div></div></div>
@@ -355,33 +378,31 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 <!-- ===== AGENTS PAGE ===== -->
 <div class="page" id="page-agents">
   <div class="sdiv">Agent Monitor — Real-Time</div>
-  <div class="agent-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));" id="agents-full"></div>
+  <div class="agent-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));" id="agents-full"></div>
 </div>
 
 <!-- ===== SOCIAL PAGE ===== -->
 <div class="page" id="page-social">
   <div class="sdiv">All Platforms — This Week</div>
   <div class="platform-grid" id="platform-cards"></div>
-
   <div class="g2 gap">
     <div class="panel">
-      <div class="ph"><span class="ph-title">X Weekly Engagement</span></div>
+      <div class="ph"><span class="ph-title">📊 X Weekly Engagement</span></div>
       <div class="pb"><div class="chart-wrap"><canvas id="engagementChart"></canvas></div></div>
     </div>
     <div class="panel">
-      <div class="ph"><span class="ph-title">Target Accounts</span></div>
+      <div class="ph"><span class="ph-title">🎯 Target Accounts</span></div>
       <div class="pb">
         <div class="plat-row"><div class="plat-icon">𝕏</div><div class="plat-name">@FelixCraftAI</div><div><div class="plat-stat">Monitored</div><div class="plat-change trend-up">● Active</div></div></div>
         <div class="plat-row"><div class="plat-icon">𝕏</div><div class="plat-name">@LarryClawerence</div><div><div class="plat-stat">Monitored</div><div class="plat-change trend-up">● Active</div></div></div>
         <div class="plat-row"><div class="plat-icon">𝕏</div><div class="plat-name">@AlexFinn</div><div><div class="plat-stat">Monitored</div><div class="plat-change trend-up">● Active</div></div></div>
         <div class="plat-row"><div class="plat-icon">𝕏</div><div class="plat-name">@mikefutia</div><div><div class="plat-stat">Monitored</div><div class="plat-change trend-up">● Active</div></div></div>
-        <div style="margin-top:12px;font-size:10px;color:var(--muted2);">Niches: AI · Automation · Sales · Real Estate · Debt Relief</div>
+        <div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6;">Niches: AI · Automation · Sales · Real Estate · Debt Relief</div>
       </div>
     </div>
   </div>
-
   <div class="panel gap">
-    <div class="ph"><span class="ph-title">Activity Log · All Time</span></div>
+    <div class="ph"><span class="ph-title">📋 Activity Log — All Time</span></div>
     <div class="pb scroll" id="social-log"></div>
   </div>
 </div>
@@ -389,41 +410,43 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 <!-- ===== REVENUE PAGE ===== -->
 <div class="page" id="page-revenue">
   <div class="g4">
-    <div class="stat s-green"><div class="stat-label">Revenue Today</div><div class="stat-val c-green" id="rev-today">$0</div><div class="stat-sub">Update from Gumroad</div><div class="stat-icon">💵</div></div>
-    <div class="stat s-cyan"><div class="stat-label">Revenue This Week</div><div class="stat-val c-cyan" id="rev-week">$0</div><div class="stat-sub">7-day total</div><div class="stat-icon">📅</div></div>
-    <div class="stat s-purple"><div class="stat-label">Revenue This Month</div><div class="stat-val c-purple" id="rev-month">$0</div><div class="stat-sub">March 2026</div><div class="stat-icon">📆</div></div>
-    <div class="stat s-yellow"><div class="stat-label">Total Sales</div><div class="stat-val c-yellow" id="rev-sales">0</div><div class="stat-sub">Units sold all time</div><div class="stat-icon">🛒</div></div>
+    <div class="stat s-green"><span class="stat-icon">💵</span><div class="stat-label">Revenue Today</div><div class="stat-val c-green" id="rev-today">$0</div><div class="stat-sub">Update from Gumroad</div></div>
+    <div class="stat s-cyan"><span class="stat-icon">📅</span><div class="stat-label">This Week</div><div class="stat-val c-cyan" id="rev-week">$0</div><div class="stat-sub">7-day total</div></div>
+    <div class="stat s-blue"><span class="stat-icon">📆</span><div class="stat-label">This Month</div><div class="stat-val c-blue" id="rev-month">$0</div><div class="stat-sub">March 2026</div></div>
+    <div class="stat s-yellow"><span class="stat-icon">🛒</span><div class="stat-label">Total Sales</div><div class="stat-val c-yellow" id="rev-sales">0</div><div class="stat-sub">Units sold all time</div></div>
   </div>
   <div class="g2 gap">
     <div class="panel">
-      <div class="ph"><span class="ph-title">Product Performance</span><span class="ph-badge">aijeditroy.gumroad.com</span></div>
+      <div class="ph"><span class="ph-title">📦 Product Performance</span><span class="ph-badge">aijeditroy.gumroad.com</span></div>
       <div class="pb" id="products-list"></div>
     </div>
     <div class="panel">
-      <div class="ph"><span class="ph-title">Revenue Chart</span></div>
-      <div class="pb"><div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
-      <div style="margin-top:14px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;color:var(--muted2);line-height:1.6;">
-        <strong style="color:var(--text);">Auto-track revenue:</strong><br>
-        Connect Gumroad webhook → Skywalker logs sales to stats.json → dashboard updates on refresh.
-      </div></div>
+      <div class="ph"><span class="ph-title">📈 Revenue Chart</span></div>
+      <div class="pb">
+        <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+        <div style="margin-top:16px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--muted);line-height:1.6;">
+          <strong style="color:var(--text);">Auto-track revenue:</strong><br>
+          Connect Gumroad webhook → Skywalker logs sales to stats.json → dashboard updates on refresh.
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== TASKS PAGE ===== -->
 <div class="page" id="page-tasks">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-    <div style="font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;">Kanban Board</div>
-    <button class="btn btn-primary" onclick="openModal()">+ Add Task</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div class="sdiv" style="margin:0;flex:1;">Kanban Board</div>
+    <button class="btn btn-primary" onclick="openModal()" style="margin-left:16px;">+ Add Task</button>
   </div>
-  <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-    <div style="width:70px;height:70px;flex-shrink:0;"><canvas id="donutChart"></canvas></div>
-    <div style="display:flex;gap:12px;flex:1;min-width:180px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="width:80px;height:80px;flex-shrink:0;"><canvas id="donutChart"></canvas></div>
+    <div style="display:flex;gap:14px;flex:1;min-width:200px;">
       <div class="metric-card" style="flex:1;"><div class="metric-val" style="color:var(--blue)" id="k-todo-count">0</div><div class="metric-label">To Do</div></div>
       <div class="metric-card" style="flex:1;"><div class="metric-val" style="color:var(--yellow)" id="k-doing-count">0</div><div class="metric-label">Doing</div></div>
       <div class="metric-card" style="flex:1;"><div class="metric-val" style="color:var(--green)" id="k-done-count">0</div><div class="metric-label">Done</div></div>
     </div>
-    <div id="motivation-pill" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:7px 14px;border-radius:20px;font-size:11px;color:var(--green);font-weight:600;white-space:nowrap;">Let's go! 🚀</div>
+    <div class="motivation-pill" id="motivation-pill">Let's go! 🚀</div>
   </div>
   <div class="kanban" id="kanban-board">
     <div class="k-col" id="col-todo" ondragover="dragOver(event)" ondrop="drop(event,'todo')">
@@ -449,17 +472,17 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
   <div class="g2">
     <div>
       <div class="sdiv">Active</div>
-      <div class="proj-card"><div class="proj-top"><div class="proj-name">⚡ Skywalker — Mac 1 Automation</div><div class="proj-badge pb-active">Active</div></div><div class="proj-desc">Autonomous X posting, commenting, following. 3x daily cron. Postiz + Playwright + tweepy stack.</div><div class="pbar"><div class="pfill purple" style="width:90%"></div></div><div class="proj-meta"><span>90% complete</span><span>Mac 1 · @mambajediclaw</span></div></div>
+      <div class="proj-card"><div class="proj-top"><div class="proj-name">⚡ Skywalker — Cloud Automation</div><div class="proj-badge pb-active">Active</div></div><div class="proj-desc">Autonomous agent scheduler running in Manus cloud. 7 agents, 16 daily jobs, Telegram reporting, GitHub dashboard sync.</div><div class="pbar"><div class="pfill cyan" style="width:90%"></div></div><div class="proj-meta"><span>90% complete</span><span>Cloud · All 7 agents</span></div></div>
       <div class="proj-card"><div class="proj-top"><div class="proj-name">📊 LinkedIn Pipeline Dashboard</div><div class="proj-badge pb-active">Active</div></div><div class="proj-desc">Track LinkedIn outreach pipeline, connection requests, replies, and booked calls.</div><div class="pbar"><div class="pfill green" style="width:60%"></div></div><div class="proj-meta"><span>60% complete</span><span>LinkedIn_Pipeline_Dashboard.html</span></div></div>
       <div class="sdiv">Planned</div>
       <div class="proj-card"><div class="proj-top"><div class="proj-name">🤖 Mac 2 Agent — Competing X Account</div><div class="proj-badge pb-planned">Planned</div></div><div class="proj-desc">Duplicate Skywalker on Mac 2 with separate X account. Head-to-head performance comparison.</div><div class="pbar"><div class="pfill yellow" style="width:5%"></div></div><div class="proj-meta"><span>5% complete</span><span>Mac 2 · New X account needed</span></div></div>
-      <div class="proj-card"><div class="proj-top"><div class="proj-name">🎙 Retell AI Voice Agent Builder</div><div class="proj-badge pb-planned">Planned</div></div><div class="proj-desc">Load Retell AI + n8n knowledge into Skywalker. Client onboarding: call logging → Airtable → email → CRM.</div><div class="pbar"><div class="pfill purple" style="width:10%"></div></div><div class="proj-meta"><span>10% complete</span><span>Airtable base + n8n workflow built ✅</span></div></div>
+      <div class="proj-card"><div class="proj-top"><div class="proj-name">🎙 Retell AI Voice Agent Builder</div><div class="proj-badge pb-planned">Planned</div></div><div class="proj-desc">Load Retell AI + n8n knowledge into Skywalker. Client onboarding: call logging → Airtable → email → CRM.</div><div class="pbar"><div class="pfill cyan" style="width:10%"></div></div><div class="proj-meta"><span>10% complete</span><span>Airtable base + n8n workflow built ✅</span></div></div>
       <div class="proj-card"><div class="proj-top"><div class="proj-name">🌐 Website Refresh 2026</div><div class="proj-badge pb-paused">Paused</div></div><div class="proj-desc">AI-driven personalization, voice search, mobile-first, AR features, Web 3.0 / privacy-first design.</div><div class="pbar"><div class="pfill yellow" style="width:20%"></div></div><div class="proj-meta"><span>20% complete</span><span>aijeditroy.gumroad.com</span></div></div>
     </div>
     <div>
       <div class="sdiv">Pipeline Progress</div>
       <div class="panel"><div class="ph"><span class="ph-title">Overall Progress</span></div><div class="pb"><div class="chart-wrap"><canvas id="projectChart"></canvas></div></div></div>
-      <div class="panel" style="margin-top:12px;"><div class="ph"><span class="ph-title">Next Actions</span></div><div class="pb" id="next-actions"></div></div>
+      <div class="panel" style="margin-top:14px;"><div class="ph"><span class="ph-title">🎯 Next Actions</span></div><div class="pb" id="next-actions"></div></div>
     </div>
   </div>
 </div>
@@ -467,7 +490,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 <!-- ADD TASK MODAL -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <h3>Add Task</h3>
+    <h3>⚡ Add Task</h3>
     <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="task-title" placeholder="Task description..."></div>
     <div class="g2"><div class="form-group"><label class="form-label">Category</label><select class="form-select" id="task-cat"><option value="work">Work</option><option value="marketing">Marketing</option><option value="dev">Development</option><option value="personal">Personal</option></select></div><div class="form-group"><label class="form-label">Priority</label><select class="form-select" id="task-pri"><option value="urgent">Urgent</option><option value="normal">Normal</option><option value="someday">Someday</option></select></div></div>
     <div class="g2"><div class="form-group"><label class="form-label">Track Status</label><select class="form-select" id="task-track"><option value="ontrack">On Track</option><option value="atrisk">At Risk</option><option value="offtrack">Off Track</option></select></div><div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="task-due" type="date"></div></div>
@@ -497,67 +520,43 @@ function showPage(id,el){
   if(id==='tasks'){initDonut();renderKanban();}
 }
 
-// ===== STATS.JSON LOADER =====
-let statsData = null;
-
-function trendArrow(current, prev){
+// ===== STATS LOADER =====
+let statsData=null;
+function trendArrow(current,prev){
   if(prev===0||prev===null||prev===undefined) return '<span class="trend-flat">— new</span>';
-  const diff = current - prev;
-  const pct = Math.abs(Math.round((diff/prev)*100));
+  const diff=current-prev;const pct=Math.abs(Math.round((diff/prev)*100));
   if(diff>0) return `<span class="trend-up">▲ +${pct}%</span>`;
   if(diff<0) return `<span class="trend-down">▼ -${pct}%</span>`;
   return '<span class="trend-flat">→ flat</span>';
 }
-
-function trendDiff(current, prev){
+function trendDiff(current,prev){
   if(prev===null||prev===undefined) return '';
-  const diff = current - prev;
+  const diff=current-prev;
   if(diff>0) return `<span class="trend-up">▲ +${diff}</span>`;
   if(diff<0) return `<span class="trend-down">▼ ${diff}</span>`;
   return '<span class="trend-flat">→ same</span>';
 }
 
 async function loadStats(){
-  try {
-    const res = await fetch('stats.json?t='+Date.now());
-    statsData = await res.json();
+  try{
+    const res=await fetch('stats.json?t='+Date.now());
+    statsData=await res.json();
     renderAll();
-    document.getElementById('last-updated').textContent = statsData._meta?.last_updated || 'Unknown';
-  } catch(e){
-    document.getElementById('last-updated').textContent = 'stats.json not found — using defaults';
-    statsData = getDefaultStats();
-    renderAll();
+    document.getElementById('last-updated').textContent=statsData._meta?.last_updated||'Unknown';
+  }catch(e){
+    document.getElementById('last-updated').textContent='stats.json not found — using defaults';
+    statsData=getDefaultStats();renderAll();
   }
 }
 
 function getDefaultStats(){
-  return {
-    _meta:{last_updated:'No data'},
-    social:{
-      x:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,posts_today:0,posts_this_week:0,posts_target_weekly:42,comments_today:0,comments_this_week:0,follows_today:0,follows_this_week:0,likes_today:0,likes_this_week:0,reposts_today:0,reposts_this_week:0,prev_week:{posts:0,comments:0,follows:0,likes:0,reposts:0}},
-      linkedin:{handle:'Troy Davis',followers:0,followers_prev_week:0,posts_today:0,posts_this_week:0,likes_today:0,likes_this_week:0,comments_today:0,comments_this_week:0,connections_sent_today:0,connections_sent_this_week:0,prev_week:{posts:0,comments:0,likes:0,connections_sent:0}},
-      youtube:{handle:'AI Jedi',subscribers:0,subscribers_prev_week:0,videos_this_week:0,views_today:0,views_this_week:0,likes_this_week:0,comments_this_week:0,prev_week:{views:0,likes:0,comments:0,subscribers_gained:0}},
-      tiktok:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,videos_today:0,views_today:0,views_this_week:0,likes_today:0,likes_this_week:0,comments_this_week:0,shares_this_week:0,prev_week:{views:0,likes:0,comments:0,followers_gained:0}}
-    },
-    agents:{
-      skywalker:{name:'Skywalker',role:'Social Media Automation',emoji:'🤖',color:'purple',status:'active',current_task:'Awaiting next cron run',last_task_completed:'—',tasks_today:0,errors_today:0,error_log:[]},
-      dev:{name:'Dev',role:'Full Stack Developer',emoji:'💻',color:'green',status:'idle',current_task:null,last_task_completed:'Dashboard build',tasks_today:3,errors_today:0,error_log:[]},
-      alex:{name:'Alex',role:'Research Analyst',emoji:'🔍',color:'blue',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},
-      maya:{name:'Maya',role:'Content Writer',emoji:'✍️',color:'purple',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},
-      jordan:{name:'Jordan',role:'Marketing Strategist',emoji:'📈',color:'yellow',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},
-      sam:{name:'Sam',role:'Social Media Manager',emoji:'📱',color:'pink',status:'idle',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},
-      trader:{name:'Trader',role:'Trading Sub-Agent',emoji:'📊',color:'orange',status:'offline',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]}
-    },
-    revenue:{today:0,this_week:0,this_month:0,all_time:0,total_sales:0,prev_week_total:0,products:{}},
-    activity_feed:[],
-    priorities:[]
-  };
+  return{_meta:{last_updated:'No data'},social:{x:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,posts_today:0,posts_this_week:0,posts_target_weekly:42,comments_today:0,comments_this_week:0,follows_today:0,follows_this_week:0,likes_today:0,likes_this_week:0,reposts_today:0,reposts_this_week:0,prev_week:{posts:0,comments:0,follows:0,likes:0,reposts:0}},linkedin:{handle:'Troy Davis',followers:0,followers_prev_week:0,posts_today:0,posts_this_week:0,likes_today:0,likes_this_week:0,comments_today:0,comments_this_week:0,connections_sent_today:0,connections_sent_this_week:0,prev_week:{posts:0,comments:0,likes:0,connections_sent:0}},youtube:{handle:'AI Jedi',subscribers:0,subscribers_prev_week:0,videos_this_week:0,views_today:0,views_this_week:0,likes_this_week:0,comments_this_week:0,prev_week:{views:0,likes:0,comments:0,subscribers_gained:0}},tiktok:{handle:'@mambajediclaw',followers:0,followers_prev_week:0,videos_today:0,views_today:0,views_this_week:0,likes_today:0,likes_this_week:0,comments_this_week:0,shares_this_week:0,prev_week:{views:0,likes:0,comments:0,followers_gained:0}}},agents:{skywalker:{name:'Skywalker',role:'Commander & Strategist',emoji:'⚡',color:'cyan',status:'standby',current_task:null,last_task_completed:'System restored',tasks_today:0,errors_today:0,error_log:[]},trader:{name:'Trader',role:'Market Analyst',emoji:'📊',color:'green',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},jordan:{name:'Jordan',role:'Content Strategist',emoji:'📈',color:'yellow',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},sam:{name:'Sam',role:'Social Media Manager',emoji:'📱',color:'pink',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},alex:{name:'Alex',role:'Research Analyst',emoji:'🔍',color:'blue',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},maya:{name:'Maya',role:'Content Writer',emoji:'✍️',color:'purple',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]},sentinel:{name:'Sentinel',role:'System Guardian',emoji:'🛡️',color:'orange',status:'standby',current_task:null,last_task_completed:null,tasks_today:0,errors_today:0,error_log:[]}},revenue:{today:0,this_week:0,this_month:0,all_time:0,total_sales:0,prev_week_total:0,products:{}},activity_feed:[],priorities:[]};
 }
 
 function renderAll(){
   renderOverviewStats();
-  renderAgentCards('overview-agents', true);
-  renderAgentCards('agents-full', false);
+  renderAgentCards('overview-agents',true);
+  renderAgentCards('agents-full',false);
   renderActivityFeed();
   renderPlatformCards();
   renderSocialLog();
@@ -568,51 +567,43 @@ function renderAll(){
 
 // ===== OVERVIEW STATS =====
 function renderOverviewStats(){
-  const s = statsData.social.x;
-  document.getElementById('s-posts').textContent = s.posts_today;
-  document.getElementById('s-posts-sub').textContent = `Target ${s.posts_target_weekly/7|0}–${(s.posts_target_weekly/7|0)+2}/day`;
-  document.getElementById('s-comments').textContent = s.comments_today;
-  document.getElementById('s-comments-sub').textContent = `Target 10–15 ${s.comments_today>=10?'✅':''}`;
-  document.getElementById('s-follows').textContent = s.follows_today;
-  document.getElementById('s-follows-sub').textContent = `Target 20–30 ${s.follows_today>=20?'✅':''}`;
-  document.getElementById('s-revenue').textContent = '$'+statsData.revenue.today;
+  const s=statsData.social.x;
+  document.getElementById('s-posts').textContent=s.posts_today;
+  document.getElementById('s-posts-sub').textContent=`Target ${s.posts_target_weekly/7|0}–${(s.posts_target_weekly/7|0)+2}/day`;
+  document.getElementById('s-comments').textContent=s.comments_today;
+  document.getElementById('s-comments-sub').textContent=`Target 10–15 ${s.comments_today>=10?'✅':''}`;
+  document.getElementById('s-follows').textContent=s.follows_today;
+  document.getElementById('s-follows-sub').textContent=`Target 20–30 ${s.follows_today>=20?'✅':''}`;
+  document.getElementById('s-revenue').textContent='$'+statsData.revenue.today;
 }
 
 // ===== AGENT CARDS =====
-const colorMap={purple:'var(--accent)',blue:'var(--blue)',green:'var(--green)',yellow:'var(--yellow)',pink:'var(--pink)',orange:'var(--orange)'};
-const agentOrder=['skywalker','dev','alex','maya','jordan','sam','trader'];
+const colorMap={cyan:'var(--cyan)',blue:'var(--blue)',green:'var(--green)',yellow:'var(--yellow)',pink:'var(--pink)',orange:'var(--orange)',purple:'var(--purple)'};
+const agentOrder=['skywalker','trader','jordan','sam','alex','maya','sentinel'];
 
-function renderAgentCards(containerId, compact){
-  const container = document.getElementById(containerId);
+function renderAgentCards(containerId,compact){
+  const container=document.getElementById(containerId);
   if(!container) return;
   container.innerHTML='';
   agentOrder.forEach(key=>{
-    const a = statsData.agents[key];
+    const a=statsData.agents[key];
     if(!a) return;
-    const statusColor = a.status==='active'?'var(--green)':a.status==='idle'?'var(--yellow)':'var(--muted2)';
-    const statusLabel = a.status==='active'?'Active':a.status==='idle'?'Standby':'Offline';
-    const dotClass = a.status==='active'?'active':a.status==='idle'?'idle':'offline';
-    const currentTaskHtml = a.current_task
-      ? `<div class="agent-current">🔄 ${a.current_task}</div>`
-      : '';
-    const lastTaskHtml = a.last_task_completed
-      ? `<div class="agent-last">✓ ${a.last_task_completed}</div>`
-      : `<div class="agent-last" style="color:var(--muted)">No tasks yet</div>`;
-    const errorHtml = a.errors_today>0
-      ? `<div class="agent-error">⚠ ${a.errors_today} error${a.errors_today>1?'s':''} today</div>`
-      : '';
-    const tasksCount = a.tasks_today>0 ? a.tasks_today : '—';
-    const col = colorMap[a.color]||'var(--accent)';
-    const div = document.createElement('div');
+    const statusColor=a.status==='active'?'var(--green)':a.status==='idle'||a.status==='standby'?'var(--yellow)':'var(--muted2)';
+    const statusLabel=a.status==='active'?'ACTIVE':a.status==='idle'||a.status==='standby'?'STANDBY':'OFFLINE';
+    const dotClass=a.status==='active'?'active':a.status==='idle'||a.status==='standby'?'idle':'offline';
+    const currentTaskHtml=a.current_task?`<div class="agent-current">🔄 ${a.current_task}</div>`:'';
+    const lastTaskHtml=a.last_task_completed?`<div class="agent-last">✓ ${a.last_task_completed}</div>`:`<div class="agent-last" style="color:var(--muted2)">No tasks yet today</div>`;
+    const errorHtml=a.errors_today>0?`<div class="agent-error">⚠ ${a.errors_today} error${a.errors_today>1?'s':''} today</div>`:'';
+    const tasksCount=a.tasks_today>0?a.tasks_today:'—';
+    const col=colorMap[a.color]||'var(--cyan)';
+    const div=document.createElement('div');
     div.className=`agent-card ${key}`;
     div.innerHTML=`
-      <div class="agent-avatar ${key}">${a.emoji}</div>
+      <span class="agent-avatar">${a.emoji}</span>
       <div class="agent-name">${a.name}</div>
       <div class="agent-role">${a.role}</div>
-      <div class="agent-status-row"><div class="sdot ${dotClass}"></div><span style="color:${statusColor}">${statusLabel}${a.status==='active'&&a.runs_today?' · '+a.runs_today+'x today':''}</span></div>
-      ${currentTaskHtml}
-      ${lastTaskHtml}
-      ${errorHtml}
+      <div class="agent-status-row"><div class="sdot ${dotClass}"></div><span class="agent-status-label" style="color:${statusColor}">${statusLabel}</span></div>
+      ${currentTaskHtml}${lastTaskHtml}${errorHtml}
       <div class="agent-tasks-badge" style="color:${col}">${tasksCount}</div>
     `;
     container.appendChild(div);
@@ -620,93 +611,45 @@ function renderAgentCards(containerId, compact){
 }
 
 // ===== ACTIVITY FEED =====
-const feedColors={post:'var(--yellow)',comment:'var(--green)',follow:'var(--accent2)',like:'var(--pink)',sale:'var(--green)',system:'var(--muted2)',error:'var(--red)'};
+const feedColors={post:'var(--yellow)',comment:'var(--green)',follow:'var(--cyan)',like:'var(--pink)',sale:'var(--green)',system:'var(--muted)',error:'var(--red)'};
 const feedTagClass={post:'ft-post',comment:'ft-comment',follow:'ft-follow',like:'ft-like',sale:'ft-sale',system:'ft-system',error:'ft-error'};
 
 function renderActivityFeed(){
-  const feed = statsData.activity_feed || [];
-  const container = document.getElementById('activity-feed');
+  const feed=statsData.activity_feed||[];
+  const container=document.getElementById('activity-feed');
   if(!container) return;
   if(feed.length===0){
-    container.innerHTML='<div style="color:var(--muted2);font-size:11px;padding:10px 0;">No activity yet. Skywalker will populate this after the next run.</div>';
+    container.innerHTML='<div class="empty-state"><span class="empty-state-icon">⚡</span><div class="empty-state-text">No activity yet.<br>Skywalker will populate this after the next run.</div></div>';
     return;
   }
-  container.innerHTML = feed.map(item=>`
+  container.innerHTML=feed.map(item=>`
     <div class="feed-item">
       <div class="feed-time">${item.time}</div>
-      <div class="feed-dot" style="background:${feedColors[item.type]||'var(--muted2)'}"></div>
+      <div class="feed-dot" style="background:${feedColors[item.type]||'var(--muted)'}"></div>
       <div class="feed-text">${item.text}<span class="feed-tag ${feedTagClass[item.type]||'ft-system'}">${item.type.toUpperCase()}</span></div>
     </div>
   `).join('');
 }
 
-// ===== PLATFORM SOCIAL CARDS =====
+// ===== PLATFORM CARDS =====
 function renderPlatformCards(){
-  const container = document.getElementById('platform-cards');
+  const container=document.getElementById('platform-cards');
   if(!container) return;
-  const s = statsData.social;
-
-  const platforms = [
-    {
-      key:'x', cls:'x-card', icon:'𝕏', name:'X (Twitter)', handle:s.x.handle,
-      metrics:[
-        {val:s.x.followers, label:'Followers', trend:trendDiff(s.x.followers, s.x.followers_prev_week)},
-        {val:s.x.posts_this_week, label:'Posts/Wk', trend:trendDiff(s.x.posts_this_week, s.x.prev_week?.posts)},
-        {val:s.x.comments_this_week, label:'Comments', trend:trendDiff(s.x.comments_this_week, s.x.prev_week?.comments)},
-        {val:s.x.follows_this_week, label:'Follows', trend:trendDiff(s.x.follows_this_week, s.x.prev_week?.follows)},
-        {val:s.x.likes_this_week, label:'Likes', trend:trendDiff(s.x.likes_this_week, s.x.prev_week?.likes)},
-        {val:s.x.reposts_this_week, label:'Reposts', trend:trendDiff(s.x.reposts_this_week, s.x.prev_week?.reposts)}
-      ]
-    },
-    {
-      key:'linkedin', cls:'li-card', icon:'💼', name:'LinkedIn', handle:s.linkedin.handle,
-      metrics:[
-        {val:s.linkedin.followers, label:'Followers', trend:trendDiff(s.linkedin.followers, s.linkedin.followers_prev_week)},
-        {val:s.linkedin.posts_this_week, label:'Posts/Wk', trend:trendDiff(s.linkedin.posts_this_week, s.linkedin.prev_week?.posts)},
-        {val:s.linkedin.likes_this_week, label:'Likes', trend:trendDiff(s.linkedin.likes_this_week, s.linkedin.prev_week?.likes)},
-        {val:s.linkedin.comments_this_week, label:'Comments', trend:trendDiff(s.linkedin.comments_this_week, s.linkedin.prev_week?.comments)},
-        {val:s.linkedin.connections_sent_this_week, label:'Connects', trend:trendDiff(s.linkedin.connections_sent_this_week, s.linkedin.prev_week?.connections_sent)},
-        {val:s.linkedin.profile_views_this_week||0, label:'Profile Views', trend:''}
-      ]
-    },
-    {
-      key:'youtube', cls:'yt-card', icon:'▶️', name:'YouTube', handle:s.youtube.handle,
-      metrics:[
-        {val:s.youtube.subscribers, label:'Subscribers', trend:trendDiff(s.youtube.subscribers, s.youtube.subscribers_prev_week)},
-        {val:s.youtube.videos_this_week, label:'Videos/Wk', trend:''},
-        {val:s.youtube.views_this_week, label:'Views', trend:trendDiff(s.youtube.views_this_week, s.youtube.prev_week?.views)},
-        {val:s.youtube.watch_hours_this_week||0, label:'Watch Hrs', trend:''},
-        {val:s.youtube.likes_this_week, label:'Likes', trend:trendDiff(s.youtube.likes_this_week, s.youtube.prev_week?.likes)},
-        {val:s.youtube.comments_this_week, label:'Comments', trend:trendDiff(s.youtube.comments_this_week, s.youtube.prev_week?.comments)}
-      ]
-    },
-    {
-      key:'tiktok', cls:'tt-card', icon:'🎵', name:'TikTok', handle:s.tiktok.handle,
-      metrics:[
-        {val:s.tiktok.followers, label:'Followers', trend:trendDiff(s.tiktok.followers, s.tiktok.followers_prev_week)},
-        {val:s.tiktok.videos_this_week, label:'Videos/Wk', trend:''},
-        {val:s.tiktok.views_this_week, label:'Views', trend:trendDiff(s.tiktok.views_this_week, s.tiktok.prev_week?.views)},
-        {val:s.tiktok.likes_this_week, label:'Likes', trend:trendDiff(s.tiktok.likes_this_week, s.tiktok.prev_week?.likes)},
-        {val:s.tiktok.comments_this_week, label:'Comments', trend:trendDiff(s.tiktok.comments_this_week, s.tiktok.prev_week?.comments)},
-        {val:s.tiktok.shares_this_week, label:'Shares', trend:''}
-      ]
-    }
+  const s=statsData.social;
+  const platforms=[
+    {key:'x',cls:'x-card',icon:'𝕏',name:'X (Twitter)',handle:s.x.handle,metrics:[{val:s.x.followers,label:'Followers',trend:trendDiff(s.x.followers,s.x.followers_prev_week)},{val:s.x.posts_this_week,label:'Posts/Wk',trend:trendDiff(s.x.posts_this_week,s.x.prev_week?.posts)},{val:s.x.comments_this_week,label:'Comments',trend:trendDiff(s.x.comments_this_week,s.x.prev_week?.comments)},{val:s.x.follows_this_week,label:'Follows',trend:trendDiff(s.x.follows_this_week,s.x.prev_week?.follows)},{val:s.x.likes_this_week,label:'Likes',trend:trendDiff(s.x.likes_this_week,s.x.prev_week?.likes)},{val:s.x.reposts_this_week,label:'Reposts',trend:trendDiff(s.x.reposts_this_week,s.x.prev_week?.reposts)}]},
+    {key:'linkedin',cls:'li-card',icon:'💼',name:'LinkedIn',handle:s.linkedin.handle,metrics:[{val:s.linkedin.followers,label:'Followers',trend:trendDiff(s.linkedin.followers,s.linkedin.followers_prev_week)},{val:s.linkedin.posts_this_week,label:'Posts/Wk',trend:trendDiff(s.linkedin.posts_this_week,s.linkedin.prev_week?.posts)},{val:s.linkedin.likes_this_week,label:'Likes',trend:trendDiff(s.linkedin.likes_this_week,s.linkedin.prev_week?.likes)},{val:s.linkedin.comments_this_week,label:'Comments',trend:trendDiff(s.linkedin.comments_this_week,s.linkedin.prev_week?.comments)},{val:s.linkedin.connections_sent_this_week,label:'Connects',trend:trendDiff(s.linkedin.connections_sent_this_week,s.linkedin.prev_week?.connections_sent)},{val:s.linkedin.profile_views_this_week||0,label:'Profile Views',trend:''}]},
+    {key:'youtube',cls:'yt-card',icon:'▶️',name:'YouTube',handle:s.youtube.handle,metrics:[{val:s.youtube.subscribers,label:'Subscribers',trend:trendDiff(s.youtube.subscribers,s.youtube.subscribers_prev_week)},{val:s.youtube.videos_this_week,label:'Videos/Wk',trend:''},{val:s.youtube.views_this_week,label:'Views',trend:trendDiff(s.youtube.views_this_week,s.youtube.prev_week?.views)},{val:s.youtube.watch_hours_this_week||0,label:'Watch Hrs',trend:''},{val:s.youtube.likes_this_week,label:'Likes',trend:trendDiff(s.youtube.likes_this_week,s.youtube.prev_week?.likes)},{val:s.youtube.comments_this_week,label:'Comments',trend:trendDiff(s.youtube.comments_this_week,s.youtube.prev_week?.comments)}]},
+    {key:'tiktok',cls:'tt-card',icon:'🎵',name:'TikTok',handle:s.tiktok.handle,metrics:[{val:s.tiktok.followers,label:'Followers',trend:trendDiff(s.tiktok.followers,s.tiktok.followers_prev_week)},{val:s.tiktok.videos_this_week,label:'Videos/Wk',trend:''},{val:s.tiktok.views_this_week,label:'Views',trend:trendDiff(s.tiktok.views_this_week,s.tiktok.prev_week?.views)},{val:s.tiktok.likes_this_week,label:'Likes',trend:trendDiff(s.tiktok.likes_this_week,s.tiktok.prev_week?.likes)},{val:s.tiktok.comments_this_week,label:'Comments',trend:trendDiff(s.tiktok.comments_this_week,s.tiktok.prev_week?.comments)},{val:s.tiktok.shares_this_week,label:'Shares',trend:''}]}
   ];
-
-  container.innerHTML = platforms.map(p=>`
+  container.innerHTML=platforms.map(p=>`
     <div class="plat-card ${p.cls}">
       <div class="plat-header">
         <div class="plat-icon-lg">${p.icon}</div>
         <div><div class="plat-name-lg">${p.name}</div><div class="plat-handle">${p.handle}</div></div>
       </div>
       <div class="plat-metrics">
-        ${p.metrics.map(m=>`
-          <div class="plat-metric">
-            <div class="plat-metric-val">${m.val??'—'}</div>
-            <div class="plat-metric-label">${m.label}</div>
-            <div class="plat-metric-trend">${m.trend}</div>
-          </div>
-        `).join('')}
+        ${p.metrics.map(m=>`<div class="plat-metric"><div class="plat-metric-val">${m.val??'—'}</div><div class="plat-metric-label">${m.label}</div><div class="plat-metric-trend">${m.trend}</div></div>`).join('')}
       </div>
     </div>
   `).join('');
@@ -714,15 +657,12 @@ function renderPlatformCards(){
 
 // ===== SOCIAL LOG =====
 function renderSocialLog(){
-  const feed = statsData.activity_feed || [];
-  const container = document.getElementById('social-log');
+  const feed=statsData.activity_feed||[];
+  const container=document.getElementById('social-log');
   if(!container) return;
-  const social = feed.filter(f=>['post','comment','follow','like','sale'].includes(f.type));
-  if(social.length===0){
-    container.innerHTML='<div style="color:var(--muted2);font-size:11px;padding:10px 0;">No social activity logged yet.</div>';
-    return;
-  }
-  container.innerHTML = social.map(item=>`
+  const social=feed.filter(f=>['post','comment','follow','like','sale'].includes(f.type));
+  if(social.length===0){container.innerHTML='<div class="empty-state"><span class="empty-state-icon">📡</span><div class="empty-state-text">No social activity logged yet.</div></div>';return;}
+  container.innerHTML=social.map(item=>`
     <div class="feed-item">
       <div class="feed-time">${item.time}</div>
       <div class="feed-dot" style="background:${feedColors[item.type]}"></div>
@@ -733,19 +673,19 @@ function renderSocialLog(){
 
 // ===== REVENUE =====
 function renderRevenue(){
-  const r = statsData.revenue;
+  const r=statsData.revenue;
   document.getElementById('rev-today').textContent='$'+r.today;
   document.getElementById('rev-week').textContent='$'+r.this_week;
   document.getElementById('rev-month').textContent='$'+r.this_month;
   document.getElementById('rev-sales').textContent=r.total_sales;
 }
-
 function renderProducts(){
-  const prods = statsData.revenue.products || {};
-  const container = document.getElementById('products-list');
+  const prods=statsData.revenue.products||{};
+  const container=document.getElementById('products-list');
   if(!container) return;
-  const maxSales = Math.max(...Object.values(prods).map(p=>p.sales||0), 1);
-  container.innerHTML = Object.values(prods).map(p=>`
+  if(Object.keys(prods).length===0){container.innerHTML='<div class="empty-state"><span class="empty-state-icon">📦</span><div class="empty-state-text">No products yet.</div></div>';return;}
+  const maxSales=Math.max(...Object.values(prods).map(p=>p.sales||0),1);
+  container.innerHTML=Object.values(prods).map(p=>`
     <div class="prod-row">
       <div><div class="prod-name">${p.name}</div><div class="prod-bar"><div class="prod-fill" style="width:${Math.round((p.sales/maxSales)*100)}%"></div></div></div>
       <div style="text-align:right"><div class="prod-price">$${p.price}</div><div class="prod-sales">${p.sales} sales</div></div>
@@ -755,39 +695,38 @@ function renderProducts(){
 
 // ===== NEXT ACTIONS =====
 function renderNextActions(){
-  const priorities = statsData.priorities || [];
-  const container = document.getElementById('next-actions');
+  const priorities=statsData.priorities||[];
+  const container=document.getElementById('next-actions');
   if(!container) return;
-  const colors={urgent:'var(--red)',high:'var(--yellow)',normal:'var(--muted2)'};
-  container.innerHTML = priorities.map(p=>`
-    <div class="feed-item">
-      <div class="feed-dot" style="background:${colors[p.priority]||'var(--muted2)'};flex-shrink:0;margin-top:4px;"></div>
-      <div class="feed-text" style="font-size:11px;"><strong style="color:${colors[p.priority]}">#${p.rank}</strong> ${p.text}</div>
+  if(priorities.length===0){container.innerHTML='<div class="empty-state"><span class="empty-state-icon">🎯</span><div class="empty-state-text">No priorities set yet.</div></div>';return;}
+  const colors={urgent:'var(--red)',high:'var(--yellow)',normal:'var(--muted)'};
+  container.innerHTML=priorities.map(p=>`
+    <div class="next-action-item">
+      <div class="na-dot" style="background:${colors[p.priority]||'var(--muted)'}"></div>
+      <div class="na-text"><strong style="color:${colors[p.priority]}">#${p.rank}</strong> ${p.text}</div>
     </div>
   `).join('');
 }
 
 // ===== CHARTS =====
 let charts={};
+const chartDefaults={color:'#6b8aaa',gridColor:'#1a2535'};
+function renderChartDefaults(ctx){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:chartDefaults.color,font:{size:11}}}},scales:{x:{ticks:{color:chartDefaults.color},grid:{color:chartDefaults.gridColor}},y:{ticks:{color:chartDefaults.color},grid:{color:chartDefaults.gridColor}}}};}
 function initEngagementChart(){
   if(charts.eng) return;
-  const s = statsData?.social?.x || {};
+  const s=statsData?.social?.x||{};
   const ctx=document.getElementById('engagementChart').getContext('2d');
-  charts.eng=new Chart(ctx,{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[
-    {label:'Posts',data:[s.posts_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(124,58,237,0.6)',borderRadius:4},
-    {label:'Comments',data:[s.comments_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(16,185,129,0.6)',borderRadius:4},
-    {label:'Follows',data:[s.follows_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(6,182,212,0.6)',borderRadius:4}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'#1c1c2e'}},y:{ticks:{color:'#64748b'},grid:{color:'#1c1c2e'}}}}});
+  charts.eng=new Chart(ctx,{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Posts',data:[s.posts_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(0,212,255,0.6)',borderRadius:5},{label:'Comments',data:[s.comments_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(0,255,136,0.6)',borderRadius:5},{label:'Follows',data:[s.follows_this_week||0,0,0,0,0,0,0],backgroundColor:'rgba(0,102,255,0.6)',borderRadius:5}]},options:renderChartDefaults()});
 }
 function initRevenueChart(){
   if(charts.rev) return;
   const ctx=document.getElementById('revenueChart').getContext('2d');
-  charts.rev=new Chart(ctx,{type:'line',data:{labels:['Mar 1','Mar 2','Mar 3','Mar 4','Mar 5','Mar 6','Mar 7'],datasets:[{label:'Revenue ($)',data:[0,0,0,0,0,0,0],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',tension:0.4,fill:true,pointBackgroundColor:'#10b981'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:10}}}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'#1c1c2e'}},y:{ticks:{color:'#64748b'},grid:{color:'#1c1c2e'}}}}});
+  charts.rev=new Chart(ctx,{type:'line',data:{labels:['Mar 1','Mar 2','Mar 3','Mar 4','Mar 5','Mar 6','Mar 7'],datasets:[{label:'Revenue ($)',data:[0,0,0,0,0,0,0],borderColor:'#00ff88',backgroundColor:'rgba(0,255,136,0.08)',tension:0.4,fill:true,pointBackgroundColor:'#00ff88',pointRadius:4}]},options:renderChartDefaults()});
 }
 function initProjectChart(){
   if(charts.proj) return;
   const ctx=document.getElementById('projectChart').getContext('2d');
-  charts.proj=new Chart(ctx,{type:'bar',data:{labels:['Skywalker','Mac 2','Retell AI','n8n','Website','LinkedIn'],datasets:[{label:'% Complete',data:[90,5,10,0,20,60],backgroundColor:['rgba(124,58,237,0.7)','rgba(245,158,11,0.7)','rgba(124,58,237,0.5)','rgba(124,58,237,0.3)','rgba(245,158,11,0.5)','rgba(16,185,129,0.7)'],borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{max:100,ticks:{color:'#64748b'},grid:{color:'#1c1c2e'}},y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#1c1c2e'}}}}});
+  charts.proj=new Chart(ctx,{type:'bar',data:{labels:['Skywalker','Mac 2','Retell AI','n8n','Website','LinkedIn'],datasets:[{label:'% Complete',data:[90,5,10,0,20,60],backgroundColor:['rgba(0,212,255,0.7)','rgba(255,204,0,0.7)','rgba(0,212,255,0.5)','rgba(0,212,255,0.3)','rgba(255,204,0,0.5)','rgba(0,255,136,0.7)'],borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{max:100,ticks:{color:chartDefaults.color},grid:{color:chartDefaults.gridColor}},y:{ticks:{color:chartDefaults.color,font:{size:11}},grid:{color:chartDefaults.gridColor}}}}});
 }
 
 let donutChart=null;
@@ -808,7 +747,7 @@ function initDonut(){
   document.getElementById('motivation-pill').textContent=msg;
   if(donutChart){donutChart.data.datasets[0].data=[todo||1,doing,done];donutChart.update();return;}
   const ctx=document.getElementById('donutChart').getContext('2d');
-  donutChart=new Chart(ctx,{type:'doughnut',data:{labels:['To Do','Doing','Done'],datasets:[{data:[todo||5,doing||2,done||3],backgroundColor:['#3b82f6','#f59e0b','#10b981'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false}}}});
+  donutChart=new Chart(ctx,{type:'doughnut',data:{labels:['To Do','Doing','Done'],datasets:[{data:[todo||5,doing||2,done||3],backgroundColor:['#0066ff','#ffcc00','#00ff88'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false}}}});
 }
 
 // ===== KANBAN =====
@@ -823,14 +762,13 @@ if(!tasks){
     {id:6,title:'Expand target accounts list beyond 4',cat:'marketing',pri:'normal',track:'ontrack',due:'2026-03-15',status:'doing'},
     {id:7,title:'Add X session cookie expiry alert',cat:'dev',pri:'normal',track:'ontrack',due:'2026-03-20',status:'doing'},
     {id:8,title:'Fix Playwright networkidle timeout',cat:'dev',pri:'urgent',track:'ontrack',due:'2026-03-07',status:'done'},
-    {id:9,title:'Set up 3x daily cron jobs for Skywalker',cat:'dev',pri:'urgent',track:'ontrack',due:'2026-03-07',status:'done'},
-    {id:10,title:'Update SOUL.md with staggered posting schedule',cat:'work',pri:'normal',track:'ontrack',due:'2026-03-07',status:'done'},
+    {id:9,title:'Set up cloud scheduler — all 7 agents',cat:'dev',pri:'urgent',track:'ontrack',due:'2026-03-10',status:'done'},
+    {id:10,title:'Wire GitHub dashboard auto-sync',cat:'work',pri:'normal',track:'ontrack',due:'2026-03-10',status:'done'},
   ];
   saveTasks();
 }
 function saveTasks(){localStorage.setItem('tasks',JSON.stringify(tasks));}
-let dragId=null;
-let modalStatus='todo';
+let dragId=null;let modalStatus='todo';
 function renderKanban(){
   ['todo','doing','done'].forEach(s=>{
     const container=document.getElementById('cards-'+s);
@@ -839,9 +777,7 @@ function renderKanban(){
     document.getElementById('cnt-'+s).textContent=filtered.length;
     filtered.forEach(t=>{
       const card=document.createElement('div');
-      card.className='k-card';
-      card.draggable=true;
-      card.dataset.id=t.id;
+      card.className='k-card';card.draggable=true;card.dataset.id=t.id;
       card.ondragstart=e=>{dragId=t.id;card.classList.add('dragging');};
       card.ondragend=e=>{card.classList.remove('dragging');};
       const catMap={work:'b-work Work',marketing:'b-marketing Marketing',dev:'b-dev Dev',personal:'b-personal Personal'};
@@ -858,8 +794,7 @@ function renderKanban(){
 }
 function dragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
 function drop(e,status){
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
   document.querySelectorAll('.k-col').forEach(c=>c.classList.remove('drag-over'));
   const task=tasks.find(t=>t.id==dragId);
   if(task){task.status=status;saveTasks();renderKanban();}
@@ -875,9 +810,9 @@ function saveTask(){
   document.getElementById('task-title').value='';
 }
 
-// ===== INIT + AUTO-REFRESH =====
+// ===== INIT =====
 loadStats();
-setInterval(loadStats, 60000);
+setInterval(loadStats,60000);
 </script>
 </body>
 </html>
